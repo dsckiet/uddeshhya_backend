@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // const cookieParser = require('cookie-parser');
 // const session = require('express-session');
 // require('./config/passport')(passport);
+const volunteer=require('./routes/volunteer_form') ;
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(bodyParser.json());
 // });
 
 app.use('/', require('./routes/index'));
+app.use('/volunteer_form',volunteer);
 
 app.get('*', (req, res) => {
     res.render('notfound');
