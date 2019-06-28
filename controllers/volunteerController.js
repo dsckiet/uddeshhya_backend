@@ -52,14 +52,15 @@ const volunteerForm = async (req, res) => {
 };
 
 const volunteerList = async (req, res) => {
-    try {
-        let data = await Volunteer.find();
-        res.status(200).json({message: "success", error: false, data});
-    } catch(ex) {
-        res.status(400).json({message: ex.message, error: true, data: null});
-    }
-}
+  try {
+    let data = await Volunteer.find();
+    res.status(200).json({ message: "success", error: false, data });
+  } catch (ex) {
+    res.status(400).json({ message: ex.message, error: true, data: null });
+  }
+};
 
 module.exports = {
-  volunteerForm, volunteerList
+  volunteerForm,
+  volunteerList
 };
