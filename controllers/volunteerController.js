@@ -12,13 +12,14 @@ const volunteerForm = async (req, res) => {
     branch,
     year,
     bloodgroup,
-    belongToKIET,
+    college,
     aboutUddeshhya,
     heardFrom,
     workSpan,
     skills,
     suggestion
   } = req.body;
+
   let volunteer = await Volunteer.findOne({ email: req.body.email });
   if (volunteer)
     return res
@@ -35,7 +36,7 @@ const volunteerForm = async (req, res) => {
     branch,
     year,
     bloodgroup,
-    belongToKIET,
+    college,
     aboutUddeshhya,
     heardFrom,
     workSpan,
@@ -44,9 +45,9 @@ const volunteerForm = async (req, res) => {
   });
   try {
     await volunteer.save();
-    res.status(200).json({message: "success"});
+    res.status(200).json({ message: "success", error: false });
   } catch (ex) {
-      res.status(400).json({message: ex.message});
+    res.status(400).json({ message: ex.message, error: true });
   }
 };
 

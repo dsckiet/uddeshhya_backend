@@ -40,10 +40,6 @@ const formschema = new mongoose.Schema({
     type: String,
     required: true
   },
-  belongToKIET: {
-    type: String,
-    enum: ["yes", "no"]
-  },
   college: {
     type: String
   },
