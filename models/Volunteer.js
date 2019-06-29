@@ -7,29 +7,28 @@ const volunteerSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    maxlength: 50,
-    minlength: 5,
     required: true
   },
   phone: {
     type: Number,
+    length: 10,
     required: true
   },
   alternatePhone: {
+    length: 10,
     type: Number
   },
   currentAddress: {
     type: String,
-    minlength: 10,
     required: true
   },
   permanentAddress: {
     type: String,
-    minlength: 10,
     required: true
   },
   branch: {
     type: String,
+    enum: ["CSE", "IT", "CSI", "ECE", "EI", "EN", "ME", "CE", "MCA", "MBA", "Others"],
     required: true
   },
   year: {
@@ -45,8 +44,6 @@ const volunteerSchema = new mongoose.Schema({
   },
   aboutUddeshhya: {
     type: String,
-    minlength: 10,
-    maxlength: 500,
     required: true
   },
   heardFrom: {
