@@ -24,7 +24,7 @@ const volunteerForm = async (req, res) => {
   if (volunteer)
     return res
       .status(200)
-      .json({ message: "You have already filled the form" });
+      .json({ message: "You have already filled the form!" });
 
   volunteer = new Volunteer({
     email,
@@ -46,8 +46,8 @@ const volunteerForm = async (req, res) => {
   try {
     await volunteer.save();
     res.status(200).json({ message: "success", error: false });
-  } catch (ex) {
-    res.status(400).json({ message: ex.message, error: true });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: true });
   }
 };
 
@@ -55,8 +55,8 @@ const volunteerList = async (req, res) => {
   try {
     let data = await Volunteer.find();
     res.status(200).json({ message: "success", error: false, data });
-  } catch (ex) {
-    res.status(400).json({ message: ex.message, error: true, data: null });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: true, data: null });
   }
 };
 

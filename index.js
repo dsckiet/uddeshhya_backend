@@ -10,27 +10,25 @@ require("./config/dbconnection");
 
 app.use(cors());
 app.set("view engine", "ejs");
-app.use(
-  express.urlencoded({
-    extended: false
-  })
-);
+
+app.use( express.urlencoded({ extended: false }) );
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/api/v1/volunteer", require("./routes/volunteer"));
+const volunteers = require('./routes/volunteer');
+app.use("/api/v1/volunteer", volunteers);
+
+const contactForm = require('./routes/contactForm');
+app.use('/api/v1/contactForm', contactForm);
 
 app.get("*", (req, res) => {
-  res.json({ message: "api not found" });
+  res.json({ message: "API not found!" });
 });
 
 app.listen(process.env.PORT, err => {
   if (err) {
-    console.log("Error in running server");
+    console.log("Error in running server..");
     return;
   }
   console.log(

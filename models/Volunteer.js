@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const formschema = new mongoose.Schema({
+const volunteerSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
@@ -67,5 +67,5 @@ const formschema = new mongoose.Schema({
     type: String
   }
 });
-const Volunteer = mongoose.model("volunteer", formschema);
+const Volunteer = mongoose.model("volunteer", volunteerSchema);
 module.exports = Volunteer;
