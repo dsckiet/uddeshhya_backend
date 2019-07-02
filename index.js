@@ -1,56 +1,37 @@
 const express = require("express");
-// const passport = require('passport');
-const path = require('path');
-const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// require('./config/passport')(passport);
-const volunteer=require('./routes/volunteer_form') ;
+const path = require("path");
+const bodyParser = require("body-parser");
 
 const app = express();
 
-const cors = require('cors');
-require('dotenv').config();
-require('./config/dbconnection');
+const cors = require("cors");
+require("dotenv").config();
+require("./config/dbconnection");
 
 app.use(cors());
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({
-    extended: false
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.set("view engine", "ejs");
 
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use( express.urlencoded({ extended: false }) );
+app.use(express.static(path.join(__dirname, "public")));
 
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.use(cookieParser());
-// app.use(session({
-//     secret: process.env.SECRET_KEY,
-//     resave: false,
-//     saveUninitialized: false
-// }));
+const volunteers = require('./routes/volunteer');
+app.use("/api/v1/volunteer", volunteers);
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+const contactForm = require('./routes/contactForm');
+app.use('/api/v1/contactForm', contactForm);
 
-// app.use((req, res, next) => {
-//     res.locals.user = req.user || null;
-//     next();
-// });
-
-app.use('/', require('./routes/index'));
-app.use('/volunteer_form',volunteer);
-
-app.get('*', (req, res) => {
-    res.render('notfound');
+app.get("*", (req, res) => {
+  res.json({ message: "API not found!" });
 });
 
-app.listen(process.env.PORT, (err) => {
-    if (err) {
-        console.log("Error in running server");
-        return;
-    }
-    console.log(`Server is up and running on http://localhost:${process.env.PORT}`);
+app.listen(process.env.PORT, err => {
+  if (err) {
+    console.log("Error in running server..");
+    return;
+  }
+  console.log(
+    `Server is up and running on http://localhost:${process.env.PORT}`
+  );
 });
