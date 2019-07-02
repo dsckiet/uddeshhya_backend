@@ -8,7 +8,7 @@ const contactForm = async (req, res) => {
     phone,
     sharedMessage
   } = req.body;
-  
+
   let contact = await ContactForm.findOne({ email: req.body.email });
   debugger
   if (contact.sharedMessage === req.body.sharedMessage)
