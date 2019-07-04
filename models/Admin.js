@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const uniqueValidator = require('mongoose-unique-validator');
 
 //Admin Schema
 const AdminSchema = mongoose.Schema({
@@ -28,25 +27,24 @@ const AdminSchema = mongoose.Schema({
     }
 });
 
-AdminSchema.plugin(uniqueValidator);
 
 module.exports = Admin = mongoose.model('Admin', AdminSchema);
 
 //Find by Id
-module.exports.getAdminById = function (id, callback) {
+module.exports.getAdminById = function(id, callback) {
     Admin.findById(id, callback);
 }
 
-//Find the Admin by it's Email
-module.exports.getAdminByEmail = function (email, callback) {
+//Find by Email
+module.exports.getAdminByEmail = function(email, callback) {
     const query = {
         email: email
     }
     Admin.findOne(query, callback);
 };
 
-//to register the Admin
-module.exports.addAdmin = function (newAdmin, callback) {
+//Admin Registration
+module.exports.addAdmin = function(newAdmin, callback) {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newAdmin.password, salt, (err, hash) => {
             if (err) return err;
@@ -56,8 +54,8 @@ module.exports.addAdmin = function (newAdmin, callback) {
     });
 }
 
-//Compare Password
-module.exports.comparePassword = function (password, hash, callback) {
+//Compare Password using bcryptjs
+module.exports.comparePassword = function(password, hash, callback) {
     bcrypt.compare(password, hash, (err, isMatch) => {
         if (err) throw err;
         callback(null, isMatch);

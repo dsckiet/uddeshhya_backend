@@ -20,6 +20,16 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Create a custom Middleware function
+const checkUserType = (req, res, next) => {
+    // const userType = req.originalUrl.split('/')[3];
+    //Bring in the passport authentication strategy
+    require('./config/passport')("admin", passport);
+    next();
+}
+
+app.use(checkUserType);
+
 const admins = require('./routes/admin');
 app.use("/api/v1/admin", admins);
 
@@ -30,15 +40,15 @@ const contactForm = require('./routes/contactForm');
 app.use('/api/v1/contactForm', contactForm);
 
 app.get("*", (req, res) => {
-  res.json({ message: "API not found!" });
+    res.json({ message: "API not found!" });
 });
 
 app.listen(process.env.PORT, err => {
-  if (err) {
-    console.log("Error in running server..");
-    return;
-  }
-  console.log(
-    `Server is up and running on http://localhost:${process.env.PORT}`
-  );
+    if (err) {
+        console.log("Error in running server..");
+        return;
+    }
+    console.log(
+        `Server is up and running on http://localhost:${process.env.PORT}`
+    );
 });
