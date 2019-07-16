@@ -1,20 +1,17 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 // Map global promises
 mongoose.Promise = global.Promise;
 // Mongoose Connect
 const connectionString = process.env.MONGO_URI;
 
-mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-  })
-  .then(function() {
-    console.log("MongoDB Connected");
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
+connectDb = async () => {
+	try {
+		await mongoose.connect(connectionString, { useNewUrlParser: true });
+		console.log('MongoDB Connected');
+	} catch (err) {
+		console.log(err);
+	}
+};
+connectDb();
