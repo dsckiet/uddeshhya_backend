@@ -15,10 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // load schemas
+const User = require('./models/User');
 const Volunteer = require('./models/Volunteer');
+const Project = require('./models/Project');
 
 // load routes
-app.use('/api/v1/volunteer', require('./routes/api/v1/volunteer'));
+app.use('/api/v1', require('./routes/api/v1/index'));
+app.use('/api/v1/admin', require('./routes/api/v1/admin'));
 
 // 404 route
 app.get('*', (req, res) => {

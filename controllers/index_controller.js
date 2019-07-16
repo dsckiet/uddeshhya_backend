@@ -1,3 +1,25 @@
+module.exports.index = async (req, res) => {
+	try {
+		let projects = await Project.find().sort({ createdAt: 'desc' });
+		let totalProjects = 0;
+		if (projects.length !== 0) {
+			totalProjects = projects.length();
+			res.status(200).json({
+				message: 'success',
+				projects,
+				totalProjects
+			});
+		} else {
+			res.status(400).json({
+				message: 'No projects yet!!',
+				totalProjects
+			});
+		}
+	} catch (err) {
+		res.status(500).json({ message: err.message, error: true });
+	}
+};
+
 module.exports.volunteerForm = async (req, res) => {
 	let {
 		email,
@@ -16,7 +38,7 @@ module.exports.volunteerForm = async (req, res) => {
 		skills,
 		suggestion
 	} = req.body;
-
+	// validations for fields pending
 	try {
 		let volunteer = await Volunteer.findOne({ email: req.body.email });
 		if (volunteer) {
@@ -29,26 +51,5 @@ module.exports.volunteerForm = async (req, res) => {
 		}
 	} catch (err) {
 		res.status(500).json({ message: err.message, error: true });
-	}
-};
-
-module.exports.volunteerList = async (req, res) => {
-	try {
-		let data = await Volunteer.find();
-		if (data.length !== 0) {
-			res.status(200).json({
-				message: 'success',
-				error: false,
-				data
-			});
-		} else {
-			res.status(404).json({
-				message: 'No volunteers yet.',
-				error: false,
-				data: null
-			});
-		}
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
 	}
 };
