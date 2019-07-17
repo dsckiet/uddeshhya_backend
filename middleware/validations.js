@@ -1,5 +1,5 @@
 // regex definitions
-let emailRegex = /\S+@\S+/,
+let emailRegex = /\S+@\S+\.\S+/
 	phoneRegex = /([0-9]{10})/,
 	passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})');
 
