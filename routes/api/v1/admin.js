@@ -3,6 +3,7 @@ const router = express.Router();
 
 // load controllers
 let {
+	login,
 	users,
 	addUser,
 	updateUser,
@@ -26,6 +27,8 @@ let {
 // image uploader
 let { upload } = require('../../../config/imgUpload');
 
+//login route
+router.post('/login', login);
 // view users list
 router.get('/users', adminAuth, users);
 // add a user
