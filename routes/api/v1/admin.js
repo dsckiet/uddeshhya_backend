@@ -23,6 +23,9 @@ let {
 	projectValidation
 } = require('../../../middleware/validations');
 
+// image uploader
+let { upload } = require('../../../config/imgUpload');
+
 // view users list
 router.get('/users', adminAuth, users);
 // add a user
@@ -38,9 +41,21 @@ router.get('/volunteers', allAuth, volunteers);
 // all projects
 router.get('/projects', projects); // not authenticating since could also be used for homepage
 // add a project
-router.post('/projects/add', allAuth, projectValidation, addProject);
+router.post(
+	'/projects/add',
+	allAuth,
+	projectValidation,
+	upload.single('file'),
+	addProject
+);
 // update a project
-router.post('/projects/update/:id', allAuth, projectValidation, updateProject);
+router.post(
+	'/projects/update/:id',
+	allAuth,
+	projectValidation,
+	upload.single('file'),
+	updateProject
+);
 // delete a project
 router.get('/projects/delete/:id', allAuth, deleteProject);
 // view a project

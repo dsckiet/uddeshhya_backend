@@ -4,7 +4,10 @@ const ProjectSchema = new mongoose.Schema(
 	{
 		title: { type: String, required: true },
 		description: { type: String, required: true },
-		img: { type: String, required: true }
+		img: {
+			id: { type: String },
+			url: { type: String }
+		}
 	},
 	{ timestamps: true }
 );

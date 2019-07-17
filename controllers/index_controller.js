@@ -1,3 +1,7 @@
+module.exports.notFound = (req, res) => {
+	res.status(404).json({ message: 'API not found!!' });
+};
+
 module.exports.index = async (req, res) => {
 	try {
 		let projects = await Project.find().sort({ createdAt: 'desc' });
@@ -10,7 +14,7 @@ module.exports.index = async (req, res) => {
 				totalProjects
 			});
 		} else {
-			res.status(400).json({
+			res.status(404).json({
 				message: 'No projects yet!!',
 				totalProjects
 			});
@@ -20,25 +24,7 @@ module.exports.index = async (req, res) => {
 	}
 };
 
-module.exports.volunteerForm = async (req, res) => {
-	let {
-		email,
-		name,
-		phone,
-		alternatePhone,
-		currentAddress,
-		permanentAddress,
-		branch,
-		year,
-		bloodgroup,
-		college,
-		aboutUddeshhya,
-		heardFrom,
-		workSpan,
-		skills,
-		suggestion
-	} = req.body;
-	// validations for fields pending
+module.exports.volunteer = async (req, res) => {
 	try {
 		let volunteer = await Volunteer.findOne({ email: req.body.email });
 		if (volunteer) {

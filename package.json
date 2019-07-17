@@ -1,19 +1,25 @@
 {
-  "name": "uddeshhya_backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "dotenv": "^7.0.0",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "mongoose": "^5.4.21"
-  }
+	"name": "uddeshhya_backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon index.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.18.3",
+		"cloudinary": "^1.14.0",
+		"cors": "^2.8.5",
+		"dotenv": "^7.0.0",
+		"ejs": "^2.6.1",
+		"express": "^4.16.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.4.21",
+		"multer": "^1.4.2",
+		"multer-storage-cloudinary": "^2.2.1",
+		"nodemon": "^1.19.1"
+	}
 }

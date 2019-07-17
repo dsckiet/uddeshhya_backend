@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
-const UserSchema = new mongoose.Schema({
-	email: { type: String, required: true },
-	name: { type: String, required: true },
-	password: { type: String, required: true },
-	role: { type: String, required: true, enum: ['admin', 'member'] }
-});
+require('dotenv').config();
+
+const UserSchema = new mongoose.Schema(
+	{
+		email: { type: String, required: true },
+		name: { type: String, required: true },
+		password: { type: String, required: true },
+		role: { type: String, required: true, enum: ['admin', 'member'] }
+	},
+	{ timestamps: true }
+);
 
 UserSchema.methods.generateAuthToken = () => {
 	const token = jwt.sign(

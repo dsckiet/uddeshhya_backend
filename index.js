@@ -11,7 +11,7 @@ require('./config/dbconnection');
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // load schemas
@@ -24,9 +24,7 @@ app.use('/api/v1', require('./routes/api/v1/index'));
 app.use('/api/v1/admin', require('./routes/api/v1/admin'));
 
 // 404 route
-app.get('*', (req, res) => {
-	res.json({ message: 'api not found' });
-});
+app.get('*', require('./controllers/index_controller').notFound);
 
 //Setting up server
 startServer = async () => {

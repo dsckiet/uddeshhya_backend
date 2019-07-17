@@ -1,6 +1,6 @@
 // regex definitions
 let emailRegex = /\S+@\S+/,
-	phoneRegex = /(^[6-9][0-9]{9})$/gm,
+	phoneRegex = /([0-9]{10})/,
 	passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})');
 
 module.exports.userValidation = (req, res, next) => {
@@ -46,7 +46,6 @@ module.exports.volunteerValidation = (req, res, next) => {
 		!email ||
 		!name ||
 		!phone ||
-		!alternatePhone ||
 		!currentAddress ||
 		!permanentAddress ||
 		!branch ||
@@ -64,10 +63,16 @@ module.exports.volunteerValidation = (req, res, next) => {
 	// branch, year, blood group values will be fixed in dropdown, need not to be validated!!
 	// validate inputs
 	if (emailRegex.test(email)) {
-		if (phoneRegex.test(phone) && phoneRegex.test(alternatePhone)) {
-			return next();
+		if (phoneRegex.test(Number(phone))) {
+			if (!alternatePhone || phoneRegex.test(alternatePhone)) {
+				return next();
+			} else {
+				res.status(400).json({
+					message: 'Alternate Contact not valid!!'
+				});
+			}
 		} else {
-			res.status(400).json({ message: 'Contact no(s) not valid!!' });
+			res.status(400).json({ message: 'Contact not valid!!' });
 		}
 	} else {
 		res.status(400).json({ message: 'Email address not valid!!' });
@@ -78,8 +83,6 @@ module.exports.projectValidation = (req, res, next) => {
 	let { title, description } = req.body;
 	if (!title || !description) {
 		res.status(400).json({ message: 'All fields are mandatory!!' });
-	} else if (!req.file) {
-		res.status(400).json({ message: 'Please upload an image!!' });
 	} else {
 		return next();
 	}
