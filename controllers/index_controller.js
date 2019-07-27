@@ -4,21 +4,24 @@ module.exports.notFound = (req, res) => {
 
 module.exports.index = async (req, res) => {
 	try {
+		let totalProjects = 0,
+			totalTeamMembers = 0;
 		let projects = await Project.find().sort({ createdAt: 'desc' });
-		let totalProjects = 0;
+		let teamMembers = await Team.find().sort({ createdAt: 'desc' });
+
 		if (projects.length !== 0) {
-			totalProjects = projects.length();
-			res.status(200).json({
-				message: 'success',
-				projects,
-				totalProjects
-			});
-		} else {
-			res.status(404).json({
-				message: 'No projects yet!!',
-				totalProjects
-			});
+			totalProjects = projects.length;
 		}
+		if (teamMembers.length !== 0) {
+			totalTeamMembers = teamMembers.length;
+		}
+		res.status(200).json({
+			message: 'success',
+			projects,
+			totalProjects,
+			teamMembers,
+			totalTeamMembers
+		});
 	} catch (err) {
 		res.status(500).json({ message: err.message, error: true });
 	}

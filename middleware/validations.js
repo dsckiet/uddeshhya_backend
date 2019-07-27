@@ -1,7 +1,7 @@
 // regex definitions
-let emailRegex = /\S+@\S+\.\S+/
-	phoneRegex = /([0-9]{10})/,
-	passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})');
+let emailRegex = /\S+@\S+\.\S+/;
+(phoneRegex = /([0-9]{10})/),
+	(passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})'));
 
 module.exports.userValidation = (req, res, next) => {
 	let { name, email, password } = req.body;
@@ -85,5 +85,21 @@ module.exports.projectValidation = (req, res, next) => {
 		res.status(400).json({ message: 'All fields are mandatory!!' });
 	} else {
 		return next();
+	}
+};
+
+module.exports.teamValidation = (req, res, next) => {
+	let { name, position, fb, insta, linkedin, phone, email } = req.body;
+	if (!name || !position) {
+		res.status(400).json({ message: 'Name and Position are mandatory!!' });
+	}
+	if (!phone || phoneRegex.test(phone)) {
+		if (!email || emailRegex.test(email)) {
+			return next();
+		} else {
+			res.status(400).json({ message: 'Email address not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Phone number not valid!!' });
 	}
 };
