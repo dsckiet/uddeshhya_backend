@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 const User = require('./models/User');
 const Volunteer = require('./models/Volunteer');
 const Project = require('./models/Project');
+const Team = require('./models/Team');
 
 // load routes
 app.use('/api/v1', require('./routes/api/v1/index'));

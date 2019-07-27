@@ -14,14 +14,20 @@ let {
 	addProject,
 	updateProject,
 	deleteProject,
-	viewProject
+	viewProject,
+	team,
+	addTeamMember,
+	updateTeamMember,
+	deleteTeamMember,
+	viewTeamMember
 } = require('../../../controllers/admin_controller');
 
 // middlewares
 let { allAuth, adminAuth } = require('../../../middleware/auth');
 let {
 	userValidation,
-	projectValidation
+	projectValidation,
+	teamValidation
 } = require('../../../middleware/validations');
 
 // image uploader
@@ -63,6 +69,27 @@ router.post(
 router.get('/projects/delete/:id', allAuth, deleteProject);
 // view a project
 router.get('/projects/:id', allAuth, viewProject);
-
+// view team
+router.get('/team', allAuth, team);
+// add team member
+router.post(
+	'/team/add',
+	adminAuth,
+	teamValidation,
+	upload.single('file'),
+	addTeamMember
+);
+// update team member
+router.post(
+	'/team/update/:id',
+	adminAuth,
+	teamValidation,
+	upload.single('file'),
+	updateTeamMember
+);
+// delete team member
+router.get('/team/delete/:id', adminAuth, deleteTeamMember);
+//view a team member
+router.get('/team/:id', adminAuth, viewTeamMember);
 // export router
 module.exports = router;
