@@ -7,7 +7,7 @@ module.exports.index = async (req, res) => {
 		let projects = await Project.find().sort({ createdAt: 'desc' });
 		let totalProjects = 0;
 		if (projects.length !== 0) {
-			totalProjects = projects.length();
+			totalProjects = projects.length;
 			res.status(200).json({
 				message: 'success',
 				projects,
