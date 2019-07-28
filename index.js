@@ -23,9 +23,9 @@ const Team = require('./models/Team');
 // load routes
 app.use('/api/v1', require('./routes/api/v1/index'));
 app.use('/api/v1/admin', require('./routes/api/v1/admin'));
-app.use('/api/v1/users', require('./routes/api/v1/projects'));
-app.use('/api/v1/projects', require('./routes/api/v1/team'));
-app.use('/api/v1/team', require('./routes/api/v1/users'));
+app.use('/api/v1/users', require('./routes/api/v1/users'));
+app.use('/api/v1/projects', require('./routes/api/v1/projects'));
+app.use('/api/v1/team', require('./routes/api/v1/team'));
 
 // 404 route
 app.get('*', require('./controllers/index_controller').notFound);

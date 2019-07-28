@@ -54,8 +54,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		!college ||
 		!aboutUddeshhya ||
 		!heardFrom ||
-		!workSpan ||
-		!skills
+		!workSpan
 	) {
 		res.status(400).json({ message: 'Some required fields are missing!!' });
 	}
