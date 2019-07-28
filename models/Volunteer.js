@@ -59,7 +59,6 @@ const Volunteerschema = new mongoose.Schema({
 	},
 	skills: {
 		type: Array,
-		required: true
 	},
 	suggestion: {
 		type: String

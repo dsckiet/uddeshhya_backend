@@ -68,7 +68,7 @@ module.exports.updateUser = async (req, res) => {
 		let user = await User.findById(req.params.id);
 		if (user) {
 			const salt = await bcrypt.genSalt(10);
-			user.password = await bcrypt.hash(user.password, salt);
+			user.password = await bcrypt.hash(password, salt);
 			user.name = name;
 			user.email = email;
 			user.role = role;
