@@ -4,15 +4,22 @@ module.exports.notFound = (req, res) => {
 
 module.exports.index = async (req, res) => {
 	try {
-		let projects = await Project.find().sort({ createdAt: 'desc' }).limit(3);
-		let teamMembers = await Team.find().sort({ createdAt: 'desc' }).limit(3);
+		let totalProjects = await Project.countDocuments();
+		let projects = await Project.find()
+			.sort({ createdAt: 'desc' })
+			.limit(3);
+
+		let teamMembers = await Team.find()
+			.sort({ createdAt: 'desc' })
+			.limit(3);
 
 		res.status(200).json({
 			message: 'success',
+			totalProjects,
 			projects,
-			teamMembers,
+			teamMembers
 		});
-	} catch(err) {
+	} catch (err) {
 		res.status(500).json({ message: err.message, error: true });
 	}
 };
