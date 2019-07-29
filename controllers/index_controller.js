@@ -2,6 +2,10 @@ module.exports.notFound = (req, res) => {
 	res.status(404).json({ message: 'API not found!!' });
 };
 
+module.exports.welcome = (req, res) => {
+	res.status(200).json({ message: 'Welcome to UDDESHYA BACKEND API!!' });
+};
+
 module.exports.index = async (req, res) => {
 	try {
 		let totalProjects = await Project.countDocuments();

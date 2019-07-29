@@ -21,6 +21,7 @@ const Project = require('./models/Project');
 const Team = require('./models/Team');
 
 // load routes
+app.use('/', require('./controllers/index_controller').welcome);
 app.use('/api/v1', require('./routes/api/v1/index'));
 app.use('/api/v1/admin', require('./routes/api/v1/admin'));
 app.use('/api/v1/users', require('./routes/api/v1/users'));
