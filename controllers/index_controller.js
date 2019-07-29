@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
 			projects,
 			teamMembers,
 		});
-	} catch (err) {
+	} catch(err) {
 		res.status(500).json({ message: err.message, error: true });
 	}
 };
