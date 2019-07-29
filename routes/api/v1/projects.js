@@ -18,7 +18,7 @@ let { projectValidation } = require('../../../middleware/validations');
 let { upload } = require('../../../config/imgUpload');
 
 // all projects
-router.get('/', allAuth, projects);
+router.get('/', projects);
 // add a project
 router.post(
 	'/add',

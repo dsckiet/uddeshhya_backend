@@ -18,7 +18,7 @@ let { teamValidation } = require('../../../middleware/validations');
 let { upload } = require('../../../config/imgUpload');
 
 // view team
-router.get('/', allAuth, team);
+router.get('/', team);
 // add team member
 router.post(
 	'/add',
