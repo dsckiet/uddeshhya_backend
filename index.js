@@ -21,12 +21,12 @@ const Project = require('./models/Project');
 const Team = require('./models/Team');
 
 // load routes
-app.use('/', require('./controllers/index_controller').welcome);
 app.use('/api/v1', require('./routes/api/v1/index'));
 app.use('/api/v1/admin', require('./routes/api/v1/admin'));
 app.use('/api/v1/users', require('./routes/api/v1/users'));
 app.use('/api/v1/projects', require('./routes/api/v1/projects'));
 app.use('/api/v1/team', require('./routes/api/v1/team'));
+app.use('/', require('./controllers/index_controller').welcome);
 
 // 404 route
 app.get('*', require('./controllers/index_controller').notFound);
