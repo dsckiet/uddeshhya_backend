@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
 	try {
 		let totalProjects = await Project.countDocuments();
 		let projects = await Project.find()
-			.sort({ createdAt: 'desc' })
+			.sort({ updatedAt: 'desc' })
 			.limit(3);
 
 		let teamMembers = await Team.find()
