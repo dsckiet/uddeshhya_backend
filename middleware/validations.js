@@ -34,7 +34,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		year,
 		bloodgroup,
 		college,
-		aboutUddeshhya,
+		// aboutUddeshhya,
 		heardFrom,
 		workSpan,
 		skills,
@@ -52,7 +52,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		!year ||
 		!bloodgroup ||
 		!college ||
-		!aboutUddeshhya ||
+		// !aboutUddeshhya ||
 		!heardFrom ||
 		!workSpan
 	) {

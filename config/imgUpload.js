@@ -14,7 +14,13 @@ cloudinary.config({
 //define storage
 const storage = cloudinaryStorage({
 	cloudinary: cloudinary,
-	folder: process.env.CLOUDINARY_RESOURCE_FOLDER,
+	folder: (req, file, next) => {
+		next(
+			`${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
+				req.baseUrl.split('/')[3]
+			}`
+		);
+	},
 	allowedFormat: ['jpg', 'jpeg', 'png', 'gif'],
 	transformation: [{ width: 300, height: 300, crop: 'limit' }]
 });
@@ -31,3 +37,16 @@ module.exports.deleteImg = async imgId => {
 		res.status(500).json({ message: err.message, error: true });
 	}
 };
+
+// incomplete
+// module.exports.viewImg = async () => {
+// 	try {
+// 		let result = await cloudinary.v2.api.resources({
+// 		prefix: 'UDDESHYA/projects/'
+// 	});
+// 	console.log(result);
+// 	return result;
+// } catch (err) {
+// 	res.status(500).json({ message: err.message, error: true });
+// }
+// };
