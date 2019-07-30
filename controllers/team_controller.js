@@ -2,7 +2,7 @@ const { deleteImg } = require('../config/imgUpload');
 
 module.exports.team = async (req, res) => {
 	try {
-		let team = await Team.find().sort({ updatedAt: 'desc' });
+		let team = await Team.find().sort({ position: 'asc' });
 		if (team.length === 0) {
 			res.status(404).json({ message: 'No team members Found!!' });
 		} else {

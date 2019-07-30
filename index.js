@@ -26,10 +26,8 @@ app.use('/api/v1/admin', require('./routes/api/v1/admin'));
 app.use('/api/v1/users', require('./routes/api/v1/users'));
 app.use('/api/v1/projects', require('./routes/api/v1/projects'));
 app.use('/api/v1/team', require('./routes/api/v1/team'));
+// welcome cum not found route
 app.use('/', require('./controllers/index_controller').welcome);
-
-// 404 route
-app.get('*', require('./controllers/index_controller').notFound);
 
 //Setting up server
 startServer = async () => {

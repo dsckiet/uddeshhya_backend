@@ -14,7 +14,7 @@ module.exports.index = async (req, res) => {
 			.limit(3);
 
 		let teamMembers = await Team.find()
-			.sort({ createdAt: 'desc' })
+			.sort({ position: 'asc' })
 			.limit(3);
 
 		res.status(200).json({
