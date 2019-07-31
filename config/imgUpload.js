@@ -12,11 +12,11 @@ cloudinary.config({
 });
 
 //define storage
-const storage = cloudinaryStorage({
+cloudinaryStorage({
 	cloudinary: cloudinary,
 	folder: (req, file, next) => {
 		next(
-			`${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
+			undefined, `${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
 				req.baseUrl.split('/')[3]
 			}`
 		);
