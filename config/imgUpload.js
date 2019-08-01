@@ -12,7 +12,7 @@ cloudinary.config({
 });
 
 //define storage
-cloudinaryStorage({
+const storage = cloudinaryStorage({
 	cloudinary: cloudinary,
 	folder: (req, file, next) => {
 		next(
