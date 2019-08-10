@@ -57,3 +57,13 @@ module.exports.volunteer = async (req, res) => {
 		res.status(500).json({ message: err.message, error: true });
 	}
 };
+
+module.exports.contact = async (req, res) => {
+	let { name, email, phone, message } = req.body;
+	try {
+		await Message.create(req.body);
+		res.status(200).json({ message: 'success' });
+	} catch (err) {
+		res.status(500).json({ message: err.message, error: true });
+	}
+};

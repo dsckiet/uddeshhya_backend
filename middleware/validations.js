@@ -189,3 +189,19 @@ module.exports.requestBloodValidation = (req, res, next) => {
 		res.status(400).json({ message: 'Contact not valid!!' });
 	}
 };
+
+module.exports.messageValidation = (req, res, next) => {
+	let { name, email, phone, message } = req.body;
+	if (!email || !name || !message) {
+		res.status(400).json({ message: 'Some fields are missing!!' });
+	}
+	if (emailRegex.test(email)) {
+		if (phoneRegex.test(Number(phone))) {
+			return next();
+		} else {
+			res.status(400).json({ message: 'Contact not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Email address not valid!!' });
+	}
+};

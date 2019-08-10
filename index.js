@@ -21,6 +21,7 @@ const Project = require('./models/Project');
 const Team = require('./models/Team');
 const BloodDonor = require('./models/BloodDonor');
 const bloodRequest = require('./models/BloodRequest');
+const Message = require('./models/Message');
 
 // load routes
 app.use('/api/v1', require('./routes/api/v1/index'));
