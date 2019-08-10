@@ -1,5 +1,13 @@
 module.exports.admin = async (req, res) => {
-	res.status(200).json({ message: 'Under Development!!' });
+	let totalVolunteers = await Volunteer.countDocuments();
+	let totalBloodDonors = await BloodDonor.countDocuments();
+	let totalBloodRequests = await BloodRequest.countDocuments();
+	res.status(200).json({
+		message: 'success',
+		totalBloodDonors,
+		totalBloodRequests,
+		totalVolunteers
+	});
 };
 
 module.exports.volunteers = async (req, res) => {
