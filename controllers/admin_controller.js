@@ -14,3 +14,29 @@ module.exports.volunteers = async (req, res) => {
 		res.status(500).json({ message: err.message, error: true, data: null });
 	}
 };
+
+module.exports.donors = async (req, res) => {
+	let { bloodGroup } = req.body;
+	let donors;
+	if (bloodGroup) {
+		donors = await BloodDonor.find({ bloodGroup }).sort({
+			createdAt: 'desc'
+		});
+	} else {
+		donors = await BloodDonor.find().sort({ createdAt: 'desc' });
+	}
+	if (donors.length !== 0) {
+		res.status(200).json({ message: 'success', donors });
+	} else {
+		res.status(404).json({ message: 'No Donors!!' });
+	}
+};
+
+module.exports.bloodRequests = async (req, res) => {
+	let requests = await BloodRequest.find().sort({ createdAt: 'desc' });
+	if (requests.length !== 0) {
+		res.status(200).json({ message: 'success', requests });
+	} else {
+		res.status(404).json({ message: 'No Requests!!' });
+	}
+};
