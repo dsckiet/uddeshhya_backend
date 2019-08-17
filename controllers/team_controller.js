@@ -2,7 +2,7 @@ const { deleteImg } = require('../config/imgUpload');
 
 module.exports.team = async (req, res) => {
 	try {
-		let team = await Team.find().sort({ updatedAt: 'desc' });
+		let team = await Team.find().sort({ position: 'asc' });
 		if (team.length === 0) {
 			res.status(404).json({ message: 'No team members Found!!' });
 		} else {
@@ -35,7 +35,7 @@ module.exports.addTeamMember = async (req, res) => {
 					email,
 					img: {
 						id: req.file.public_id,
-						url: req.file.url
+						url: req.file.secure_url
 					}
 				};
 				await Team.create(newTeamMember);
@@ -48,14 +48,23 @@ module.exports.addTeamMember = async (req, res) => {
 };
 
 module.exports.updateTeamMember = async (req, res) => {
-	let { position, fb, insta, linkedin, phone, email } = req.body; // name field readonly in frontend
+	let {
+		position,
+		fb,
+		insta,
+		linkedin,
+		phone,
+		email,
+		imgid,
+		imgurl
+	} = req.body; // name field readonly in frontend
 	try {
 		let team = await Team.findById(req.params.id);
 		if (team) {
 			if (req.file) {
 				await deleteImg(team.img.id);
 				team.img.id = req.file.public_id;
-				team.img.url = req.file.url;
+				team.img.url = req.file.secure_url;
 			}
 			team.position = position;
 			team.fb = fb;

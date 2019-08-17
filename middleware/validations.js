@@ -34,7 +34,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		year,
 		bloodgroup,
 		college,
-		aboutUddeshhya,
+		// aboutUddeshhya,
 		heardFrom,
 		workSpan,
 		skills,
@@ -52,7 +52,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		!year ||
 		!bloodgroup ||
 		!college ||
-		!aboutUddeshhya ||
+		// !aboutUddeshhya ||
 		!heardFrom ||
 		!workSpan
 	) {
@@ -100,5 +100,108 @@ module.exports.teamValidation = (req, res, next) => {
 		}
 	} else {
 		res.status(400).json({ message: 'Phone number not valid!!' });
+	}
+};
+
+module.exports.donorValidation = (req, res, next) => {
+	let {
+		name,
+		bloodGroup,
+		phone,
+		email,
+		dob, // format: YYYY/MM/DD
+		address,
+		hasDonated
+	} = req.body;
+
+	if (!name || !bloodGroup || !phone || !email || !dob || !address) {
+		res.status(400).json({ message: 'All fields are mandtaory!!' });
+	}
+	// 18 yrs from dob
+	let newDate = new Date(
+		new Date(dob).setFullYear(new Date(dob).getFullYear() + 18)
+	);
+
+	// test fields
+	if (emailRegex.test(email)) {
+		if (phoneRegex.test(Number(phone))) {
+			if (newDate <= new Date(Date.now())) {
+				return next();
+			} else {
+				res.status(400).json({
+					message: 'Must be atleast 18 yrs old!!'
+				});
+			}
+		} else {
+			res.status(400).json({ message: 'Contact not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Email address not valid!!' });
+	}
+};
+
+module.exports.requestBloodValidation = (req, res, next) => {
+	let {
+		name,
+		bloodGroup,
+		phone,
+		dob,
+		address,
+		pincode,
+		requestFor,
+		require,
+		units,
+		reason,
+		neededBy,
+		timings
+	} = req.body;
+	if (
+		!name ||
+		!bloodGroup ||
+		!phone ||
+		!dob ||
+		!address ||
+		!pincode ||
+		!require ||
+		!units ||
+		!neededBy ||
+		!timings
+	) {
+		res.status(400).json({ message: 'Some fields are missing!!' });
+	}
+
+	let pincodeRegex = /(^[0-9]{6}$)/gm;
+	let unitsRegex = /(^[1-4]{1}$)/gm;
+
+	if (phoneRegex.test(Number(phone))) {
+		if (pincodeRegex.test(Number(pincode))) {
+			if (unitsRegex.test(Number(units))) {
+				return next();
+			} else {
+				res.status(400).json({
+					message: 'Max. 4 units allowed!!'
+				});
+			}
+		} else {
+			res.status(400).json({ message: 'Pincode not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Contact not valid!!' });
+	}
+};
+
+module.exports.messageValidation = (req, res, next) => {
+	let { name, email, phone, message } = req.body;
+	if (!email || !name || !message) {
+		res.status(400).json({ message: 'Some fields are missing!!' });
+	}
+	if (emailRegex.test(email)) {
+		if (phoneRegex.test(Number(phone))) {
+			return next();
+		} else {
+			res.status(400).json({ message: 'Contact not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Email address not valid!!' });
 	}
 };

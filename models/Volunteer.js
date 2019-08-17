@@ -41,12 +41,12 @@ const Volunteerschema = new mongoose.Schema({
 	college: {
 		type: String
 	},
-	aboutUddeshhya: {
-		type: String,
-		minlength: 10,
-		maxlength: 500,
-		required: true
-	},
+	// aboutUddeshhya: {
+	// 	type: String,
+	// 	minlength: 10,
+	// 	maxlength: 500,
+	// 	required: true
+	// },
 	heardFrom: {
 		type: String,
 		required: true,

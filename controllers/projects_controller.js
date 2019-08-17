@@ -30,7 +30,7 @@ module.exports.addProject = async (req, res) => {
 					description,
 					img: {
 						id: req.file.public_id,
-						url: req.file.url
+						url: req.file.secure_url
 					}
 				};
 				await Project.create(newProject);
@@ -51,7 +51,7 @@ module.exports.updateProject = async (req, res) => {
 			if (req.file) {
 				await deleteImg(project.img.id);
 				project.img.id = req.file.public_id;
-				project.img.url = req.file.url;
+				project.img.url = req.file.secure_url;
 			}
 			project.title = title;
 			project.description = description;

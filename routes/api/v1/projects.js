@@ -38,7 +38,7 @@ router.post(
 // delete a project
 router.get('/delete/:id', allAuth, deleteProject);
 // view a project
-router.get('/:id', allAuth, viewProject);
+router.get('/:id', viewProject);
 
 // export router
 module.exports = router;
