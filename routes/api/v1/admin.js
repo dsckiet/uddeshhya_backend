@@ -7,7 +7,8 @@ let {
 	volunteers,
 	donors,
 	bloodRequests,
-	messages
+	messages,
+	donations
 } = require('../../../controllers/admin_controller');
 
 // middlewares
@@ -23,6 +24,8 @@ router.post('/bloodDonors', allAuth, donors);
 router.get('/bloodRequests', allAuth, bloodRequests);
 // view contact us messages
 router.get('/messages', allAuth, messages);
+// money donors
+router.get('/donations', allAuth, donations);
 
 // export router
 module.exports = router;

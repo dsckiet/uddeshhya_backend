@@ -1,7 +1,7 @@
 // regex definitions
-let emailRegex = /\S+@\S+\.\S+/;
-(phoneRegex = /([0-9]{10})/),
-	(passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})'));
+let emailRegex = /\S+@\S+\.\S+/,
+	phoneRegex = /([0-9]{10})/,
+	passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})');
 
 module.exports.userValidation = (req, res, next) => {
 	let { name, email, password } = req.body;
@@ -103,7 +103,7 @@ module.exports.teamValidation = (req, res, next) => {
 	}
 };
 
-module.exports.donorValidation = (req, res, next) => {
+module.exports.bloodDonorValidation = (req, res, next) => {
 	let {
 		name,
 		bloodGroup,
@@ -200,6 +200,27 @@ module.exports.messageValidation = (req, res, next) => {
 			return next();
 		} else {
 			res.status(400).json({ message: 'Contact not valid!!' });
+		}
+	} else {
+		res.status(400).json({ message: 'Email address not valid!!' });
+	}
+};
+
+module.exports.donorValidation = (req, res, next) => {
+	let { name, email, phone, address, amount } = req.body;
+	let amountRegex = /(^[0-9]{1,9}$)/gm;
+
+	if (emailRegex.test(email)) {
+		if (phoneRegex.test(phone)) {
+			if (amountRegex.test(amount)) {
+				return next();
+			} else {
+				res.status(400).json({
+					message: 'Please enter a valid amount!!'
+				});
+			}
+		} else {
+			res.status(400).json({ message: 'Contact number not valid!!' });
 		}
 	} else {
 		res.status(400).json({ message: 'Email address not valid!!' });

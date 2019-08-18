@@ -8,12 +8,12 @@ let {
 } = require('../../../controllers/bloodPortal_controller');
 
 let {
-	donorValidation,
+	bloodDonorValidation,
 	requestBloodValidation
 } = require('../../../middleware/validations');
 
 // register as a donor
-router.post('/donor', donorValidation, registerDonor);
+router.post('/donor', bloodDonorValidation, registerDonor);
 // post requirement
 router.post('/requestBlood', requestBloodValidation, requestBlood);
 

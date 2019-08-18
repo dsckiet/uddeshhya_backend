@@ -22,6 +22,7 @@ const Team = require('./models/Team');
 const BloodDonor = require('./models/BloodDonor');
 const bloodRequest = require('./models/BloodRequest');
 const Message = require('./models/Message');
+const Donation = require('./models/Donation');
 
 // load routes
 app.use('/api/v1', require('./routes/api/v1/index'));
@@ -30,6 +31,7 @@ app.use('/api/v1/users', require('./routes/api/v1/users'));
 app.use('/api/v1/projects', require('./routes/api/v1/projects'));
 app.use('/api/v1/team', require('./routes/api/v1/team'));
 app.use('/api/v1/bloodPortal', require('./routes/api/v1/bloodPortal'));
+app.use('/api/v1/donate', require('./routes/api/v1/donate'));
 // welcome cum not found route
 app.use('/', require('./controllers/index_controller').welcome);
 
