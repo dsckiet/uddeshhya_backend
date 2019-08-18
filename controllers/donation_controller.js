@@ -50,8 +50,8 @@ module.exports.payment = async (req, res) => {
 			donation.finalAmount = finalAmount;
 			donation.transactionId = razorpay_payment_id;
 			donation.signature = razorpay_signature;
-			await donation.save();
-			res.status(200).json({ message: 'success' });
+			donation = await donation.save();
+			res.status(200).json({ message: 'success', donation });
 		} else {
 			res.status(500).json({ message: 'Payment failed!!' });
 		}
