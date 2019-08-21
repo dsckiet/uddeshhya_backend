@@ -14,7 +14,7 @@ module.exports.index = async (req, res) => {
 			.limit(3);
 
 		let teamMembers = await Team.find()
-			.sort({ position: 'asc' })
+			.sort({ role: 'asc', position: 'asc' })
 			.limit(3);
 		// for slide images map img from each of three projects
 		// other option a dedicated gallery mgmt for admins.

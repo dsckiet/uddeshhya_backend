@@ -1,12 +1,20 @@
 const { deleteImg } = require('../config/imgUpload');
 
 module.exports.team = async (req, res) => {
+	let ngo = [], student = [];
 	try {
-		let team = await Team.find().sort({ position: 'asc' });
+		let team = await Team.find().sort({ createdAt: 'asc' });
 		if (team.length === 0) {
 			res.status(404).json({ message: 'No team members Found!!' });
 		} else {
-			res.status(200).json({ message: 'success', team });
+			team.map(team => {
+				if(team.role === 'ngo'){
+					ngo.push(team);
+				} else {
+					student.push(team);
+				}
+			})
+			res.status(200).json({ message: 'success', ngo, student });
 		}
 	} catch (err) {
 		res.status(500).json({ message: err.message, error: true });
@@ -14,10 +22,10 @@ module.exports.team = async (req, res) => {
 };
 
 module.exports.addTeamMember = async (req, res) => {
-	let { name, position, fb, insta, linkedin, phone, email } = req.body;
-	if (!req.file) {
-		res.status(400).json({ message: 'Please upload an image!!' });
-	} else {
+	let { name, position, fb, insta, linkedin, phone, email, role } = req.body;
+	// if (!req.file) {
+	// 	res.status(400).json({ message: 'Please upload an image!!' });
+	// } else {
 		try {
 			let team = await Team.findOne({ name, position });
 			if (team) {
@@ -33,10 +41,11 @@ module.exports.addTeamMember = async (req, res) => {
 					linkedin,
 					phone,
 					email,
-					img: {
-						id: req.file.public_id,
-						url: req.file.secure_url
-					}
+					role,
+					// img: {
+					// 	id: req.file.public_id,
+					// 	url: req.file.secure_url
+					// }
 				};
 				await Team.create(newTeamMember);
 				res.status(200).json({ message: 'success' });
@@ -44,7 +53,7 @@ module.exports.addTeamMember = async (req, res) => {
 		} catch (err) {
 			res.status(500).json({ message: err.message, error: true });
 		}
-	}
+	// }
 };
 
 module.exports.updateTeamMember = async (req, res) => {
@@ -55,8 +64,7 @@ module.exports.updateTeamMember = async (req, res) => {
 		linkedin,
 		phone,
 		email,
-		imgid,
-		imgurl
+		role
 	} = req.body; // name field readonly in frontend
 	try {
 		let team = await Team.findById(req.params.id);
@@ -72,6 +80,7 @@ module.exports.updateTeamMember = async (req, res) => {
 			team.linkedin = linkedin;
 			team.phone = phone;
 			team.email = email;
+			team.role = role;
 			await team.save();
 			res.status(200).json({ message: 'success' });
 		} else {
