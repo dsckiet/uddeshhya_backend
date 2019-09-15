@@ -13,10 +13,11 @@ cloudinary.config({
 
 //define storage
 const storage = cloudinaryStorage({
-	cloudinary: cloudinary,
+	cloudinary,
 	folder: (req, file, next) => {
 		next(
-			undefined, `${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
+			undefined,
+			`${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
 				req.baseUrl.split('/')[3]
 			}`
 		);
@@ -37,16 +38,3 @@ module.exports.deleteImg = async imgId => {
 		res.status(500).json({ message: err.message, error: true });
 	}
 };
-
-// incomplete
-// module.exports.viewImg = async () => {
-// 	try {
-// 		let result = await cloudinary.v2.api.resources({
-// 		prefix: 'UDDESHYA/projects/'
-// 	});
-// 	console.log(result);
-// 	return result;
-// } catch (err) {
-// 	res.status(500).json({ message: err.message, error: true });
-// }
-// };

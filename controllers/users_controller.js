@@ -40,7 +40,7 @@ module.exports.users = async (req, res) => {
 };
 
 module.exports.addUser = async (req, res) => {
-	let { name, email, password, role } = req.body;
+	let { name, email, password } = req.body;
 	try {
 		let user = await User.findOne({ email });
 		if (user) {
@@ -49,8 +49,7 @@ module.exports.addUser = async (req, res) => {
 			let newUser = {
 				name,
 				email,
-				password,
-				role
+				password
 			};
 			const salt = await bcrypt.genSalt(10);
 			newUser.password = await bcrypt.hash(newUser.password, salt);
@@ -63,7 +62,7 @@ module.exports.addUser = async (req, res) => {
 };
 
 module.exports.updateUser = async (req, res) => {
-	let { name, email, password, role } = req.body;
+	let { name, email, password } = req.body;
 	try {
 		let user = await User.findById(req.params.id);
 		if (user) {
@@ -71,7 +70,6 @@ module.exports.updateUser = async (req, res) => {
 			user.password = await bcrypt.hash(password, salt);
 			user.name = name;
 			user.email = email;
-			user.role = role;
 			await user.save();
 			res.status(200).json({ message: 'success' });
 		} else {

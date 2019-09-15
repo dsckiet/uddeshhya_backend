@@ -12,30 +12,10 @@ module.exports.index = async (req, res) => {
 		let projects = await Project.find()
 			.sort({ updatedAt: 'desc' })
 			.limit(3);
-
-		let teamMembers = await Team.find()
-			.sort({ role: 'asc', position: 'asc' })
-			.limit(3);
-		// for slide images map img from each of three projects
-		// other option a dedicated gallery mgmt for admins.
-		// let slideImages = [];
-		// projects.map(project => {
-		// 	slideImages.push(project.img.url);
-		// })
-		// or
-		// const { viewImg } = require('../config/imgUpload');
-		// let images = await viewImg();
-		// let slideImages = [];
-		// images.map(img => {
-		// 	slideImages.push({ url: img.secure_url });
-		// });
-
 		res.status(200).json({
 			message: 'success',
 			totalProjects,
-			projects,
-			teamMembers
-			// slideImages
+			projects
 		});
 	} catch (err) {
 		res.status(500).json({ message: err.message, error: true });

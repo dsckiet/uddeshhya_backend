@@ -12,7 +12,7 @@ let {
 } = require('../../../controllers/users_controller');
 
 // middlewares
-let { allAuth, adminAuth } = require('../../../middleware/auth');
+let { adminAuth } = require('../../../middleware/auth');
 let { userValidation } = require('../../../middleware/validations');
 
 //login route

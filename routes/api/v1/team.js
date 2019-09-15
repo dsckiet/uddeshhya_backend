@@ -11,7 +11,7 @@ let {
 } = require('../../../controllers/team_controller');
 
 // middlewares
-let { allAuth, adminAuth } = require('../../../middleware/auth');
+let { adminAuth } = require('../../../middleware/auth');
 let { teamValidation } = require('../../../middleware/validations');
 
 // image uploader

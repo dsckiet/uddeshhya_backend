@@ -1,6 +1,6 @@
 // regex definitions
 let emailRegex = /\S+@\S+\.\S+/,
-	phoneRegex = /([0-9]{10})/,
+	phoneRegex = /(^[6-9]{1}[0-9]{9}$)/,
 	passwordRegex = new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.{6,})');
 
 module.exports.userValidation = (req, res, next) => {
