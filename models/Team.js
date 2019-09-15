@@ -11,7 +11,8 @@ const TeamSchema = new mongoose.Schema({
     insta: { type: String },
     linkedin: { type: String },
     phone: { type: String },
-    email: { type: String }
+    email: { type: String },
+    role: { type: String }
 }, { timestamps: true }
 );
 

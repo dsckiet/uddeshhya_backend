@@ -11,7 +11,7 @@ let {
 } = require('../../../controllers/projects_controller');
 
 // middlewares
-let { allAuth, adminAuth } = require('../../../middleware/auth');
+let { adminAuth } = require('../../../middleware/auth');
 let { projectValidation } = require('../../../middleware/validations');
 
 // image uploader
@@ -22,7 +22,7 @@ router.get('/', projects);
 // add a project
 router.post(
 	'/add',
-	allAuth,
+	adminAuth,
 	projectValidation,
 	upload.single('file'),
 	addProject
@@ -30,13 +30,13 @@ router.post(
 // update a project
 router.post(
 	'/update/:id',
-	allAuth,
+	adminAuth,
 	projectValidation,
 	upload.single('file'),
 	updateProject
 );
 // delete a project
-router.get('/delete/:id', allAuth, deleteProject);
+router.get('/delete/:id', adminAuth, deleteProject);
 // view a project
 router.get('/:id', viewProject);
 

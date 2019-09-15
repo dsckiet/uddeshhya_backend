@@ -7,22 +7,25 @@ let {
 	volunteers,
 	donors,
 	bloodRequests,
-	messages
+	messages,
+	donations
 } = require('../../../controllers/admin_controller');
 
 // middlewares
-let { allAuth, adminAuth } = require('../../../middleware/auth');
+let { adminAuth } = require('../../../middleware/auth');
 
 // admin dashboard
-router.get('/', allAuth, admin);
+router.get('/', adminAuth, admin);
 // view volunteers list
-router.get('/volunteers', allAuth, volunteers);
+router.get('/volunteers', adminAuth, volunteers);
 // view blood donors list
-router.post('/bloodDonors', allAuth, donors);
+router.post('/bloodDonors', adminAuth, donors);
 // view blood requests
-router.get('/bloodRequests', allAuth, bloodRequests);
+router.get('/bloodRequests', adminAuth, bloodRequests);
 // view contact us messages
-router.get('/messages', allAuth, messages);
+router.get('/messages', adminAuth, messages);
+// money donors
+router.get('/donations', adminAuth, donations);
 
 // export router
 module.exports = router;

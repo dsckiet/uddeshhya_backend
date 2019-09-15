@@ -48,16 +48,7 @@ module.exports.addTeamMember = async (req, res) => {
 };
 
 module.exports.updateTeamMember = async (req, res) => {
-	let {
-		position,
-		fb,
-		insta,
-		linkedin,
-		phone,
-		email,
-		imgid,
-		imgurl
-	} = req.body; // name field readonly in frontend
+	let { position, fb, insta, linkedin, phone, email } = req.body; // name field readonly in frontend
 	try {
 		let team = await Team.findById(req.params.id);
 		if (team) {
