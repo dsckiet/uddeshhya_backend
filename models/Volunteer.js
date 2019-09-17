@@ -50,7 +50,7 @@ const Volunteerschema = new mongoose.Schema({
 	heardFrom: {
 		type: String,
 		required: true,
-		enum: ['Faculity', 'Friends', 'Social media', 'Others']
+		enum: ['Faculty', 'Friends', 'Social media', 'Others']
 	},
 	workSpan: {
 		type: String,
