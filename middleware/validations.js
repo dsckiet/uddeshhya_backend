@@ -38,7 +38,8 @@ module.exports.volunteerValidation = (req, res, next) => {
 		heardFrom,
 		workSpan,
 		skills,
-		suggestion
+		suggestion,
+		projects
 	} = req.body;
 
 	// checking required fields
@@ -54,7 +55,8 @@ module.exports.volunteerValidation = (req, res, next) => {
 		!college ||
 		// !aboutUddeshhya ||
 		!heardFrom ||
-		!workSpan
+		!workSpan ||
+		!projects
 	) {
 		res.status(400).json({ message: 'Some required fields are missing!!' });
 	}
