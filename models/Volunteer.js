@@ -63,6 +63,10 @@ const Volunteerschema = new mongoose.Schema(
     },
     suggestion: {
       type: String
+    },
+    projects: {
+      type: String,
+      required: true
     }
   },
   { timestamps: true }
