@@ -49,9 +49,8 @@ module.exports.donors = async (req, res) => {
     } else {
       donors = await BloodDonor.find().sort({ createdAt: "desc" });
     }
-    if (donors.length !== 0) {
-      res.status(200).json({ message: "success", donors });
-    }
+
+    res.status(200).json({ message: "success", donors });
   } catch (err) {
     res.status(500).json({ message: err.message, error: true, data: null });
   }
