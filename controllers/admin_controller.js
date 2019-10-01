@@ -59,11 +59,8 @@ module.exports.donors = async (req, res) => {
 module.exports.bloodRequests = async (req, res) => {
   try {
     let requests = await BloodRequest.find().sort({ createdAt: "desc" });
-    if (requests.length !== 0) {
-      res.status(200).json({ message: "success", requests });
-    } else {
-      res.status(404).json({ message: "No Requests!!" });
-    }
+
+    res.status(200).json({ message: "success", requests });
   } catch (err) {
     res.status(500).json({ message: err.message, error: true, data: null });
   }
