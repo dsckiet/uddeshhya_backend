@@ -22,7 +22,7 @@ router.get('/', adminAuth, users);
 // add a user
 router.post('/add', adminAuth, userValidation, addUser);
 // update a user
-router.post('/update/:id', adminAuth, userValidation, updateUser);
+// router.post('/update/:id', adminAuth, userValidation, updateUser);
 // delete a user
 router.get('/delete/:id', adminAuth, deleteUser);
 // view a user

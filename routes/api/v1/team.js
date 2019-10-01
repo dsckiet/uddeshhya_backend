@@ -28,13 +28,13 @@ router.post(
 	addTeamMember
 );
 // update team member
-router.post(
-	'/update/:id',
-	adminAuth,
-	teamValidation,
-	upload.single('file'),
-	updateTeamMember
-);
+// router.post(
+// 	'/update/:id',
+// 	adminAuth,
+// 	teamValidation,
+// 	upload.single('file'),
+// 	updateTeamMember
+// );
 // delete team member
 router.get('/delete/:id', adminAuth, deleteTeamMember);
 //view a team member

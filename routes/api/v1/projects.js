@@ -28,13 +28,13 @@ router.post(
 	addProject
 );
 // update a project
-router.post(
-	'/update/:id',
-	adminAuth,
-	projectValidation,
-	upload.single('file'),
-	updateProject
-);
+// router.post(
+// 	'/update/:id',
+// 	adminAuth,
+// 	projectValidation,
+// 	upload.single('file'),
+// 	updateProject
+// );
 // delete a project
 router.get('/delete/:id', adminAuth, deleteProject);
 // view a project
