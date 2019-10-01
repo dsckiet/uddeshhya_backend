@@ -5,7 +5,7 @@ const BloodDonorSchema = new mongoose.Schema({
     bloodGroup: { type: String, required: true },
     phone: { type: String, required: true },
     email: { type: String, required: true },
-    dob: { type: Date, required: true },
+    dob: { type: String, required: true },
 	address: { type: String, required: true },
 	hasDonated: { type: Boolean, required: true },
 }, { timestamps: true }
