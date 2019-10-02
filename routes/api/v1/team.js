@@ -23,8 +23,8 @@ router.get('/', team);
 router.post(
 	'/add',
 	adminAuth,
+	upload.any(),
 	teamValidation,
-	upload.single('file'),
 	addTeamMember
 );
 // update team member

@@ -95,8 +95,9 @@ module.exports.teamValidation = (req, res, next) => {
   if (!name || !position) {
     res.status(400).json({ message: "Name and Position are mandatory!!" });
   }
-  if (!phone || phoneRegex.test(phone)) {
+  if (!phone || phoneRegex.test(Number(phone))) {
     if (!email || emailRegex.test(email)) {
+      req.file = req.files[0];
       return next();
     } else {
       res.status(400).json({ message: "Email address not valid!!" });
