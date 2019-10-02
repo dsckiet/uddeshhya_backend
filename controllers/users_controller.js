@@ -32,11 +32,8 @@ module.exports.users = async (req, res) => {
       updatedAt: "desc",
       role: "asc"
     });
-    if (users.length === 0) {
-      res.status(404).json({ message: "No users Found!!" });
-    } else {
-      res.status(200).json({ message: "success", users });
-    }
+
+    res.status(200).json({ message: "success", users });
   } catch (err) {
     res.status(500).json({ message: err.message, error: true });
   }
