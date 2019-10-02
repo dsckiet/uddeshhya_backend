@@ -22,13 +22,13 @@ router.get("/", projects);
 // add a project
 router.post("/add", adminAuth, upload.any(), projectValidation, addProject);
 // update a project
-router.post(
-  "/update/:id",
-  adminAuth,
-  projectValidation,
-  upload.single("file"),
-  updateProject
-);
+// router.post(
+// 	'/update/:id',
+// 	adminAuth,
+// 	projectValidation,
+// 	upload.single('file'),
+// 	updateProject
+// );
 // delete a project
 router.get("/delete/:id", adminAuth, deleteProject);
 // view a project
