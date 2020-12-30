@@ -1,17 +1,35 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
+const { logger } = require("../utility/helpers");
+const { SERVER_ERROR } = require("../utility/statusCodes");
+const { NODE_ENV, MONGO_URI } = require("./index");
 
 // Map global promises
 mongoose.Promise = global.Promise;
-// Mongoose Connect
-const connectionString = process.env.MONGO_URI;
 
+// Debugg mongo
+if (NODE_ENV === "development") mongoose.set("debug", true);
+
+// Mongoose Connect
 connectDb = async () => {
 	try {
-		await mongoose.connect(connectionString, { useNewUrlParser: true });
-		console.log("MongoDB Connected");
+		await mongoose.connect(MONGO_URI, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useCreateIndex: true
+		});
+		console.info("MongoDB Connected");
 	} catch (err) {
-		console.log(err);
+		console.info(err);
+		logger(
+			"error",
+			"database",
+			{
+				message: err.message,
+				stack: err.stack,
+				status: err.status || SERVER_ERROR
+			},
+			err
+		);
 	}
 };
 connectDb();

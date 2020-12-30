@@ -1,6 +1,8 @@
 const express = require("express");
-const path = require("path");
 const bodyParser = require("body-parser");
+const compression = require("compression");
+const helmet = require("helmet");
+const { NODE_ENV, PORT } = require("./config/index");
 const { logRequestMiddleware } = require("./middlewares/log");
 
 const app = express();
@@ -10,15 +12,31 @@ require("dotenv").config();
 require("./config/dbconnection");
 
 app.use(logRequestMiddleware);
+app.use(compression());
+app.use(helmet());
 app.use(
 	cors({
 		exposedHeaders: "x-auth-token"
 	})
 );
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(
+	bodyParser.urlencoded({
+		limit: "50mb",
+		extended: true,
+		parameterLimit: 1000000
+	})
+);
+app.use(
+	bodyParser.json({
+		limit: "50mb",
+		extended: true,
+		parameterLimit: 1000000
+	})
+);
+
+if (NODE_ENV === "production") {
+	console.log = console.warn = console.error = () => {};
+}
 
 // load schemas
 const User = require("./models/User");
@@ -41,13 +59,29 @@ app.use("/api/v1/donate", require("./routes/api/v1/donate"));
 // welcome cum not found route
 app.use("/", require("./controllers/index_controller").welcome);
 
+// Allowing headers
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	);
+	res.header("Access-Control-Allow-Credentials", true);
+	res.header(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PUT, DELETE, OPTIONS"
+	);
+	next();
+});
+
 //Setting up server
-startServer = async () => {
+(async () => {
 	try {
-		await app.listen(process.env.PORT);
-		console.log(`Server is up and running on Port ${process.env.PORT}`);
+		await app.listen(PORT);
+		console.info(
+			`NODE_ENV: ${NODE_ENV}\nServer is up and running on Port ${PORT}`
+		);
 	} catch (err) {
-		console.log("Error in running server.");
+		console.info("Error in running server.");
 	}
-};
-startServer();
+})();

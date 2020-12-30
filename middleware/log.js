@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const { formatHrTime } = require("../utility/helpers");
+const { formatHrTime } = require("../utility/helpers.js");
 
 module.exports.logRequestMiddleware = (req, res, next) => {
 	const startTime = new Date();
