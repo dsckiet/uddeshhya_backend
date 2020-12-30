@@ -1,6 +1,6 @@
 //rzp order creater
-const { createRzpOrder } = require('../config/payment');
-require('dotenv').config();
+const { createRzpOrder } = require("../config/payment");
+require("dotenv").config();
 
 module.exports.createOrder = async (req, res) => {
 	let { name, email, phone, address, amount, message } = req.body;
@@ -21,7 +21,7 @@ module.exports.createOrder = async (req, res) => {
 			await Donation.create(newDonation);
 		}
 		res.status(200).json({
-			message: 'success',
+			message: "success",
 			order,
 			key: process.env.RZP_KEY_ID
 		});
@@ -45,15 +45,15 @@ module.exports.payment = async (req, res) => {
 			let finalAmount =
 				Math.round((donation.amount - charges) * 100) / 100;
 			// payment details updation
-			donation.status = 'success';
+			donation.status = "success";
 			donation.charges = charges;
 			donation.finalAmount = finalAmount;
 			donation.transactionId = razorpay_payment_id;
 			donation.signature = razorpay_signature;
 			donation = await donation.save();
-			res.status(200).json({ message: 'success', donation });
+			res.status(200).json({ message: "success", donation });
 		} else {
-			res.status(500).json({ message: 'Payment failed!!' });
+			res.status(500).json({ message: "Payment failed!!" });
 		}
 	} catch (err) {
 		res.status(500).json({ message: err.message, error: true, data: null });

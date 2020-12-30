@@ -10,9 +10,9 @@ require("./config/dbconnection");
 
 app.use(cors());
 app.use(
-  cors({
-    exposedHeaders: "x-auth-token"
-  })
+	cors({
+		exposedHeaders: "x-auth-token"
+	})
 );
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -42,11 +42,11 @@ app.use("/", require("./controllers/index_controller").welcome);
 
 //Setting up server
 startServer = async () => {
-  try {
-    await app.listen(process.env.PORT);
-    console.log(`Server is up and running on Port ${process.env.PORT}`);
-  } catch (err) {
-    console.log("Error in running server.");
-  }
+	try {
+		await app.listen(process.env.PORT);
+		console.log(`Server is up and running on Port ${process.env.PORT}`);
+	} catch (err) {
+		console.log("Error in running server.");
+	}
 };
 startServer();

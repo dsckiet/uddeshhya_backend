@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // load controllers
@@ -8,25 +8,19 @@ let {
 	updateTeamMember,
 	deleteTeamMember,
 	viewTeamMember
-} = require('../../../controllers/team_controller');
+} = require("../../../controllers/team_controller");
 
 // middlewares
-let { adminAuth } = require('../../../middleware/auth');
-let { teamValidation } = require('../../../middleware/validations');
+let { adminAuth } = require("../../../middleware/auth");
+let { teamValidation } = require("../../../middleware/validations");
 
 // image uploader
-let { upload } = require('../../../config/imgUpload');
+let { upload } = require("../../../config/imgUpload");
 
 // view team
-router.get('/', team);
+router.get("/", team);
 // add team member
-router.post(
-	'/add',
-	adminAuth,
-	upload.any(),
-	teamValidation,
-	addTeamMember
-);
+router.post("/add", adminAuth, upload.any(), teamValidation, addTeamMember);
 // update team member
 // router.post(
 // 	'/update/:id',
@@ -36,9 +30,9 @@ router.post(
 // 	updateTeamMember
 // );
 // delete team member
-router.get('/delete/:id', adminAuth, deleteTeamMember);
+router.get("/delete/:id", adminAuth, deleteTeamMember);
 //view a team member
-router.get('/:id', adminAuth, viewTeamMember);
+router.get("/:id", adminAuth, viewTeamMember);
 
 // export router
 module.exports = router;

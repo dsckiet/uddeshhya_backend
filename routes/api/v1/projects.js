@@ -3,11 +3,11 @@ const router = express.Router();
 
 // load controllers
 let {
-  projects,
-  addProject,
-  updateProject,
-  deleteProject,
-  viewProject
+	projects,
+	addProject,
+	updateProject,
+	deleteProject,
+	viewProject
 } = require("../../../controllers/projects_controller");
 
 // middlewares

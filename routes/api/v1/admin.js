@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // load controllers
@@ -9,23 +9,23 @@ let {
 	bloodRequests,
 	messages,
 	donations
-} = require('../../../controllers/admin_controller');
+} = require("../../../controllers/admin_controller");
 
 // middlewares
-let { adminAuth } = require('../../../middleware/auth');
+let { adminAuth } = require("../../../middleware/auth");
 
 // admin dashboard
-router.get('/', adminAuth, admin);
+router.get("/", adminAuth, admin);
 // view volunteers list
-router.get('/volunteers', adminAuth, volunteers);
+router.get("/volunteers", adminAuth, volunteers);
 // view blood donors list
-router.post('/bloodDonors', adminAuth, donors);
+router.post("/bloodDonors", adminAuth, donors);
 // view blood requests
-router.get('/bloodRequests', adminAuth, bloodRequests);
+router.get("/bloodRequests", adminAuth, bloodRequests);
 // view contact us messages
-router.get('/messages', adminAuth, messages);
+router.get("/messages", adminAuth, messages);
 // money donors
-router.get('/donations', adminAuth, donations);
+router.get("/donations", adminAuth, donations);
 
 // export router
 module.exports = router;

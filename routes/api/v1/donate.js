@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // load controllers
 let {
 	createOrder,
 	payment
-} = require('../../../controllers/donation_controller');
+} = require("../../../controllers/donation_controller");
 
-let { donorValidation } = require('../../../middleware/validations');
+let { donorValidation } = require("../../../middleware/validations");
 
 // get donor details and create rzp order
-router.post('/', donorValidation, createOrder);
+router.post("/", donorValidation, createOrder);
 // rzp payment redirect
-router.post('/payment', payment);
+router.post("/payment", payment);
 
 // export router
 module.exports = router;
