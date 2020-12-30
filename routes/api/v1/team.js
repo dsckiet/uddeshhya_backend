@@ -13,14 +13,21 @@ let {
 // middlewares
 let { adminAuth } = require("../../../middleware/auth");
 let { teamValidation } = require("../../../middleware/validations");
+let { catchErrors } = require("../../../config/errorHandler");
 
 // image uploader
 let { upload } = require("../../../config/imgUpload");
 
 // view team
-router.get("/", team);
+router.get("/", catchErrors(team));
 // add team member
-router.post("/add", adminAuth, upload.any(), teamValidation, addTeamMember);
+router.post(
+	"/add",
+	catchErrors(adminAuth),
+	upload.any(),
+	catchErrors(teamValidation),
+	catchErrors(addTeamMember)
+);
 // update team member
 // router.post(
 // 	'/update/:id',
@@ -30,9 +37,13 @@ router.post("/add", adminAuth, upload.any(), teamValidation, addTeamMember);
 // 	updateTeamMember
 // );
 // delete team member
-router.get("/delete/:id", adminAuth, deleteTeamMember);
+router.get(
+	"/delete/:id",
+	catchErrors(adminAuth),
+	catchErrors(deleteTeamMember)
+);
 //view a team member
-router.get("/:id", adminAuth, viewTeamMember);
+router.get("/:id", catchErrors(adminAuth), catchErrors(viewTeamMember));
 
 // export router
 module.exports = router;

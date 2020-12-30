@@ -13,19 +13,24 @@ let {
 
 // middlewares
 let { adminAuth } = require("../../../middleware/auth");
+let { catchErrors } = require("../../../config/errorHandler");
 
 // admin dashboard
-router.get("/", adminAuth, admin);
+router.get("/", catchErrors(adminAuth), catchErrors(admin));
 // view volunteers list
-router.get("/volunteers", adminAuth, volunteers);
+router.get("/volunteers", catchErrors(adminAuth), catchErrors(volunteers));
 // view blood donors list
-router.post("/bloodDonors", adminAuth, donors);
+router.post("/bloodDonors", catchErrors(adminAuth), catchErrors(donors));
 // view blood requests
-router.get("/bloodRequests", adminAuth, bloodRequests);
+router.get(
+	"/bloodRequests",
+	catchErrors(adminAuth),
+	catchErrors(bloodRequests)
+);
 // view contact us messages
-router.get("/messages", adminAuth, messages);
+router.get("/messages", catchErrors(adminAuth), catchErrors(messages));
 // money donors
-router.get("/donations", adminAuth, donations);
+router.get("/donations", catchErrors(adminAuth), catchErrors(donations));
 
 // export router
 module.exports = router;

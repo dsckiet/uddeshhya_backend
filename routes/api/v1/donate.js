@@ -8,11 +8,12 @@ let {
 } = require("../../../controllers/donation_controller");
 
 let { donorValidation } = require("../../../middleware/validations");
+let { catchErrors } = require("../../../config/errorHandler");
 
 // get donor details and create rzp order
-router.post("/", donorValidation, createOrder);
+router.post("/", catchErrors(donorValidation), catchErrors(createOrder));
 // rzp payment redirect
-router.post("/payment", payment);
+router.post("/payment", catchErrors(payment));
 
 // export router
 module.exports = router;

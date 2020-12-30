@@ -14,19 +14,25 @@ let {
 // middlewares
 let { adminAuth } = require("../../../middleware/auth");
 let { userValidation } = require("../../../middleware/validations");
+let { catchErrors } = require("../../../config/errorHandler");
 
 //login route
-router.post("/login", login);
+router.post("/login", catchErrors(login));
 // view users list
-router.get("/", adminAuth, users);
+router.get("/", catchErrors(adminAuth), catchErrors(users));
 // add a user
-router.post("/add", adminAuth, userValidation, addUser);
+router.post(
+	"/add",
+	catchErrors(adminAuth),
+	catchErrors(userValidation),
+	catchErrors(addUser)
+);
 // update a user
 // router.post('/update/:id', adminAuth, userValidation, updateUser);
 // delete a user
-router.get("/delete/:id", adminAuth, deleteUser);
+router.get("/delete/:id", catchErrors(adminAuth), catchErrors(deleteUser));
 // view a user
-router.get("/:id", adminAuth, viewUser);
+router.get("/:id", catchErrors(adminAuth), catchErrors(viewUser));
 
 // export router
 module.exports = router;

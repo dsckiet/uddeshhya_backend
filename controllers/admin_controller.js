@@ -1,73 +1,53 @@
 module.exports.admin = async (req, res) => {
 	let totalDonations = 0,
 		totalAmount = 0;
-	try {
-		let totalVolunteers = await Volunteer.countDocuments();
-		let totalBloodDonors = await BloodDonor.countDocuments();
-		let totalBloodRequests = await BloodRequest.countDocuments();
-		let donations = await Donation.find({ status: "success" }).sort({
-			updatedAt: "desc"
-		});
-		donations.map(donation => {
-			totalDonations++;
-			totalAmount += donation.finalAmount;
-		});
-		res.status(200).json({
-			message: "success",
-			totalBloodDonors,
-			totalBloodRequests,
-			totalVolunteers,
-			totalAmount,
-			totalDonations
-		});
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
-	}
+	let totalVolunteers = await Volunteer.countDocuments();
+	let totalBloodDonors = await BloodDonor.countDocuments();
+	let totalBloodRequests = await BloodRequest.countDocuments();
+	let donations = await Donation.find({ status: "success" }).sort({
+		updatedAt: "desc"
+	});
+	donations.map(donation => {
+		totalDonations++;
+		totalAmount += donation.finalAmount;
+	});
+	res.status(200).json({
+		message: "success",
+		totalBloodDonors,
+		totalBloodRequests,
+		totalVolunteers,
+		totalAmount,
+		totalDonations
+	});
 };
 
 module.exports.volunteers = async (req, res) => {
-	try {
-		let volunteers = await Volunteer.find().sort({ createdAt: "desc" });
-		res.status(200).json({ message: "success", volunteers });
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
-	}
+	let volunteers = await Volunteer.find().sort({ createdAt: "desc" });
+	res.status(200).json({ message: "success", volunteers });
 };
 
 module.exports.donors = async (req, res) => {
 	let { bloodGroup } = req.body;
 	let donors;
-	try {
-		if (bloodGroup) {
-			donors = await BloodDonor.find({ bloodGroup }).sort({
-				createdAt: "desc"
-			});
-		} else {
-			donors = await BloodDonor.find().sort({ createdAt: "desc" });
-		}
-
-		res.status(200).json({ message: "success", donors });
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
+	if (bloodGroup) {
+		donors = await BloodDonor.find({ bloodGroup }).sort({
+			createdAt: "desc"
+		});
+	} else {
+		donors = await BloodDonor.find().sort({ createdAt: "desc" });
 	}
+
+	res.status(200).json({ message: "success", donors });
 };
 
 module.exports.bloodRequests = async (req, res) => {
-	try {
-		let requests = await BloodRequest.find().sort({ createdAt: "desc" });
-		res.status(200).json({ message: "success", requests });
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
-	}
+	let requests = await BloodRequest.find().sort({ createdAt: "desc" });
+	res.status(200).json({ message: "success", requests });
 };
 
 module.exports.messages = async (req, res) => {
-	try {
-		let messages = await Message.find().sort({ createdAt: "desc" });
-		res.status(200).json({ messgae: "success", messages });
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
-	}
+	let messages = await Message.find().sort({ createdAt: "desc" });
+	res.status(200).json({ messgae: "success", messages });
 };
 
 module.exports.donations = async (req, res) => {
@@ -75,25 +55,21 @@ module.exports.donations = async (req, res) => {
 		totalAmount = 0,
 		totalCharges = 0,
 		totalDonationAmount = 0;
-	try {
-		let donations = await Donation.find({ status: "success" }).sort({
-			updatedAt: "desc"
-		});
-		donations.map(donation => {
-			totalDonations++;
-			totalAmount += donation.finalAmount;
-			totalCharges += donation.charges;
-			totalDonationAmount += donation.amount;
-		});
-		res.status(200).json({
-			message: "success",
-			donations,
-			totalDonations,
-			totalCharges,
-			totalDonationAmount,
-			totalAmount
-		});
-	} catch (err) {
-		res.status(500).json({ message: err.message, error: true, data: null });
-	}
+	let donations = await Donation.find({ status: "success" }).sort({
+		updatedAt: "desc"
+	});
+	donations.map(donation => {
+		totalDonations++;
+		totalAmount += donation.finalAmount;
+		totalCharges += donation.charges;
+		totalDonationAmount += donation.amount;
+	});
+	res.status(200).json({
+		message: "success",
+		donations,
+		totalDonations,
+		totalCharges,
+		totalDonationAmount,
+		totalAmount
+	});
 };

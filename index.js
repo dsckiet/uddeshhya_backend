@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const compression = require("compression");
 const helmet = require("helmet");
 const { NODE_ENV, PORT } = require("./config/index");
+const { notFound, sendErrors } = require("./config/errorHandler");
 const { logRequestMiddleware } = require("./middlewares/log");
 
 const app = express();
@@ -56,8 +57,12 @@ app.use("/api/v1/projects", require("./routes/api/v1/projects"));
 app.use("/api/v1/team", require("./routes/api/v1/team"));
 app.use("/api/v1/bloodPortal", require("./routes/api/v1/bloodPortal"));
 app.use("/api/v1/donate", require("./routes/api/v1/donate"));
-// welcome cum not found route
-app.use("/", require("./controllers/index_controller").welcome);
+
+// 404 route
+app.use("*", notFound);
+
+//Error Handlers
+app.use(sendErrors);
 
 // Allowing headers
 app.use((req, res, next) => {
