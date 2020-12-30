@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const { logRequestMiddleware } = require("./middlewares/log");
 
 const app = express();
 
@@ -8,7 +9,7 @@ const cors = require("cors");
 require("dotenv").config();
 require("./config/dbconnection");
 
-app.use(cors());
+app.use(logRequestMiddleware);
 app.use(
 	cors({
 		exposedHeaders: "x-auth-token"
