@@ -53,6 +53,25 @@ module.exports.toTitleCase = str => {
 		.join(" ");
 };
 
+module.exports.generateHash = length => {
+	let chars =
+		"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	let code = "";
+	for (let i = 0; i < length; i++) {
+		code += chars[Math.round(Math.random() * (chars.length - 1))];
+	}
+	return code;
+};
+
+module.exports.slugify = text => {
+	return String(text)
+		.trim()
+		.toLowerCase()
+		.replace(/ /g, "-")
+		.replace(/[^\w-]+/g, "")
+		.replace(/-+/g, "-");
+};
+
 module.exports.logger = (type, category, logObject, err) => {
 	logger = log4js.getLogger(category);
 	if (type === "error") logger.error(logObject);

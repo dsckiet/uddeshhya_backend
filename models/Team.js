@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema(
 	{
-		name: { type: String, required: true, unique: true },
+		name: { type: String, required: true },
 		position: { type: String, required: true },
 		img: {
 			id: { type: String },
@@ -12,7 +12,7 @@ const TeamSchema = new mongoose.Schema(
 		insta: { type: String },
 		linkedin: { type: String },
 		phone: { type: String },
-		email: { type: String },
+		email: { type: String, unique: true },
 		role: { type: String }
 	},
 	{ timestamps: true }

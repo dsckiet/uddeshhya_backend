@@ -16,7 +16,10 @@ let { teamValidation } = require("../../../middleware/validations");
 let { catchErrors } = require("../../../config/errorHandler");
 
 // image uploader
-let { upload } = require("../../../services/imgUpload");
+let {
+	multer,
+	imageFileFilter
+} = require("../../../middleware/fileUploadValidations");
 
 // view team
 router.get("/", catchErrors(team));
@@ -24,17 +27,19 @@ router.get("/", catchErrors(team));
 router.post(
 	"/add",
 	catchErrors(adminAuth),
-	upload.any(),
+	multer.any(),
+	imageFileFilter,
 	catchErrors(teamValidation),
 	catchErrors(addTeamMember)
 );
 // update team member
 // router.post(
-// 	'/update/:id',
-// 	adminAuth,
-// 	teamValidation,
-// 	upload.single('file'),
-// 	updateTeamMember
+// 	"/update/:id",
+// 	catchErrors(adminAuth),
+// 	multer.any(),
+// 	imageFileFilter,
+// 	catchErrors(teamValidation),
+// 	catchErrors(updateTeamMember)
 // );
 // delete team member
 router.get(

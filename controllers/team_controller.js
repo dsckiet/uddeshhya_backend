@@ -1,6 +1,11 @@
-const { deleteImg } = require("../services/imgUpload");
-const { sendSuccess, sendError } = require("../utility/helpers");
-const { BAD_REQUEST } = require("../utility/statusCodes");
+const { deleteImg, uploadImage } = require("../services/imgUpload");
+const {
+	sendSuccess,
+	sendError,
+	slugify,
+	generateHash
+} = require("../utility/helpers");
+const { BAD_REQUEST, SERVER_ERROR } = require("../utility/statusCodes");
 
 module.exports.team = async (req, res) => {
 	let team = await Team.find().sort({ createdAt: "desc" }).lean();
@@ -10,8 +15,13 @@ module.exports.team = async (req, res) => {
 module.exports.addTeamMember = async (req, res) => {
 	let { name, position, role, fb, insta, linkedin, phone, email } = req.body;
 
-	if (!req.file)
-		return sendError(res, "Please upload an image.", BAD_REQUEST);
+	let uploadedImage = await uploadImage(
+		req.file,
+		`${slugify(name)}-${generateHash(6)}`,
+		"team"
+	);
+	if (!uploadedImage)
+		return sendError(res, "Image upload failed.", SERVER_ERROR);
 
 	let team = await Team.findOne({ name, position });
 	if (team) return sendError(res, "Team Member already exists.", BAD_REQUEST);
@@ -26,8 +36,8 @@ module.exports.addTeamMember = async (req, res) => {
 		phone,
 		email,
 		img: {
-			id: req.file.public_id,
-			url: req.file.secure_url
+			id: uploadedImage.public_id,
+			url: uploadedImage.secure_url
 		}
 	});
 	team = await team.save();
@@ -39,9 +49,16 @@ module.exports.updateTeamMember = async (req, res) => {
 	let team = await Team.findById(req.params.id);
 	if (!team) return sendError(res, "Team member not found", BAD_REQUEST);
 	if (req.file) {
-		await deleteImg(team.img.id);
-		team.img.id = req.file.public_id;
-		team.img.url = req.file.secure_url;
+		await deleteImg(project.img.id);
+		let uploadedImage = await uploadImage(
+			req.file,
+			`${slugify(name)}-${generateHash(6)}`,
+			"team"
+		);
+		if (!uploadedImage)
+			return sendError(res, "Image upload failed.", BAD_REQUEST);
+		team.img.id = uploadedImage.public_id;
+		team.img.url = uploadedImage.secure_url;
 	}
 	team.position = position;
 	team.fb = fb;

@@ -4,7 +4,7 @@ const { BAD_REQUEST } = require("../utility/statusCodes");
 module.exports.registerDonor = async (req, res) => {
 	let { name, bloodGroup, phone, email, dob, address, hasDonated } = req.body;
 	let donor = await BloodDonor.findOne({
-		$and: [{ email }, { phone }]
+		$or: [{ email }, { phone }]
 	}).lean();
 	if (donor)
 		return sendError(res, "phone or email already in use.", BAD_REQUEST);

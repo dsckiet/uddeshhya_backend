@@ -19,6 +19,8 @@ module.exports.userValidation = (req, res, next) => {
 			"Password must be atleast 6 characters long and contain atleast one alphabet and number.",
 			BAD_REQUEST
 		);
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
 	return next();
 };
 
@@ -54,7 +56,8 @@ module.exports.volunteerValidation = (req, res, next) => {
 	if (!permanentAddress)
 		return sendError(res, "Permanent Address not provided.", BAD_REQUEST);
 	if (!branch) return sendError(res, "Branch is not provided.", BAD_REQUEST);
-	if (!year) return sendError(res, "Year is not provided.", BAD_REQUEST);
+	if (!year || Number(year < 1) || Number(year) > 4)
+		return sendError(res, "Year is not valid.", BAD_REQUEST);
 	if (!bloodgroup)
 		return sendError(res, "Blood Group is not provided.", BAD_REQUEST);
 	if (!college)
@@ -65,6 +68,14 @@ module.exports.volunteerValidation = (req, res, next) => {
 		return sendError(res, "Work Span is not provided.", BAD_REQUEST);
 	if (!project)
 		return sendError(res, "Project Details are not provided.", BAD_REQUEST);
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
+	req.body.branch = String(branch).trim().toUpperCase();
+	req.body.bloodGroup = String(bloodgroup).trim().toUpperCase();
+	req.body.currentAddress = toTitleCase(String(currentAddress).trim());
+	req.body.permanentAddress = toTitleCase(String(permanentAddress).trim());
+	req.body.college = toTitleCase(String(college).trim());
 	return next();
 };
 
@@ -73,7 +84,12 @@ module.exports.projectValidation = (req, res, next) => {
 	if (!title) return sendError(res, "Title is not provided.", BAD_REQUEST);
 	if (!description)
 		return sendError(res, "Description is not provided.", BAD_REQUEST);
+	if (!req.files || !req.files[0])
+		return sendError(res, "Please upload an image.", BAD_REQUEST);
 	req.file = req.files[0];
+
+	req.body.title = toTitleCase(String(title).trim());
+	req.body.description = String(description).trim();
 	return next();
 };
 
@@ -87,7 +103,13 @@ module.exports.teamValidation = (req, res, next) => {
 		return sendError(res, "Position is not provided.", BAD_REQUEST);
 	if (!phone || !phoneRegex.test(phone))
 		return sendError(res, "Phone is not valid.", BAD_REQUEST);
+	if (!req.files || !req.files[0])
+		return sendError(res, "Please upload an image.", BAD_REQUEST);
 	req.file = req.files[0];
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
+	req.body.position = toTitleCase(String(position).trim());
 	return next();
 };
 
@@ -122,6 +144,11 @@ module.exports.bloodDonorValidation = (req, res, next) => {
 			"Donor must be atleast 18 years old.",
 			BAD_REQUEST
 		);
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
+	req.body.bloodGroup = String(bloodGroup).trim().toUpperCase();
+	req.body.address = toTitleCase(String(address).trim());
 	return next();
 };
 
@@ -152,12 +179,16 @@ module.exports.requestBloodValidation = (req, res, next) => {
 	if (!pincode || !pincodeRegex.test(Number(pincode)))
 		return sendError(res, "Pincode is not valid.", BAD_REQUEST);
 	if (!require) return sendError(res, "DOB is not provided.", BAD_REQUEST);
-	if (!units || !unitsRegex.test(Number(units)))
+	if (!units || Number(units) < 1 || Number(units) > 4)
 		return sendError(res, "Maximum 4 units are allowed.", BAD_REQUEST);
 	if (!neededBy)
 		return sendError(res, "Needed by is not provided.", BAD_REQUEST);
 	if (!timings)
 		return sendError(res, "Timings is not provided.", BAD_REQUEST);
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.bloodGroup = String(bloodGroup).trim().toUpperCase();
+	req.body.address = toTitleCase(String(address).trim());
 	return next();
 };
 
@@ -171,6 +202,9 @@ module.exports.messageValidation = (req, res, next) => {
 		return sendError(res, "Phone is not valid.", BAD_REQUEST);
 	if (!message)
 		return sendError(res, "Message is not provided.", BAD_REQUEST);
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
 	return next();
 };
 
@@ -190,5 +224,9 @@ module.exports.donorValidation = (req, res, next) => {
 			"Amount can be between 1 and 10000000.",
 			BAD_REQUEST
 		);
+
+	req.body.name = toTitleCase(String(name).trim());
+	req.body.email = String(email).trim().toLowerCase();
+	req.body.address = toTitleCase(String(address).trim());
 	return next();
 };

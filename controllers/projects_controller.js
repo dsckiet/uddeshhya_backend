@@ -1,6 +1,11 @@
-const { deleteImg } = require("../services/imgUpload");
-const { sendSuccess, sendError } = require("../utility/helpers");
-const { BAD_REQUEST } = require("../utility/statusCodes");
+const { deleteImg, uploadImage } = require("../services/imgUpload");
+const {
+	sendSuccess,
+	sendError,
+	slugify,
+	generateHash
+} = require("../utility/helpers");
+const { BAD_REQUEST, SERVER_ERROR } = require("../utility/statusCodes");
 
 module.exports.projects = async (req, res) => {
 	let projects = await Project.find().sort({ updatedAt: "desc" }).lean();
@@ -9,16 +14,22 @@ module.exports.projects = async (req, res) => {
 
 module.exports.addProject = async (req, res) => {
 	let { title, description } = req.body;
-	if (!req.file)
-		return sendError(res, "Please upload an image.", BAD_REQUEST);
+	let uploadedImage = await uploadImage(
+		req.file,
+		`${slugify(title)}-${generateHash(6)}`,
+		"projects"
+	);
+	if (!uploadedImage)
+		return sendError(res, "Image upload failed.", SERVER_ERROR);
+
 	let project = await Project.findOne({ title });
 	if (project) return sendError(res, "Project already exists.", BAD_REQUEST);
 	project = new Project({
 		title,
 		description,
 		img: {
-			id: req.file.public_id,
-			url: req.file.secure_url
+			id: uploadedImage.public_id,
+			url: uploadedImage.secure_url
 		}
 	});
 	project = await project.save();
@@ -31,8 +42,15 @@ module.exports.updateProject = async (req, res) => {
 	if (!project) return sendError(res, "Project not found.", BAD_REQUEST);
 	if (req.file) {
 		await deleteImg(project.img.id);
-		project.img.id = req.file.public_id;
-		project.img.url = req.file.secure_url;
+		let uploadedImage = await uploadImage(
+			req.file,
+			`${slugify(title)}-${generateHash(6)}`,
+			"projects"
+		);
+		if (!uploadedImage)
+			return sendError(res, "Image upload failed.", BAD_REQUEST);
+		project.img.id = uploadedImage.public_id;
+		project.img.url = uploadedImage.secure_url;
 	}
 	project.title = title;
 	project.description = description;

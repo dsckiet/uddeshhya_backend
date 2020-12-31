@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const LogSchema = new mongoose.Schema(
 	{
-		route: { type: String, required: true, index: true },
+		route: { type: String, required: true },
 		duration: { type: Number },
 		time: { type: Date },
 		user: { type: Object },
