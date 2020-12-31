@@ -1,14 +1,19 @@
 const multer = require("multer");
 const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
-
-require("dotenv").config();
+const {
+	CLOUDINARY_API_KEY,
+	CLOUDINARY_API_SECRET,
+	CLOUDINARY_CLOUD_NAME,
+	CLOUDINARY_RESOURCE_FOLDER
+} = require("../config/index");
+const { logger } = require("../utility/helpers");
 
 //Configure cloudinary
 cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET
+	cloud_name: CLOUDINARY_CLOUD_NAME,
+	api_key: CLOUDINARY_API_KEY,
+	api_secret: CLOUDINARY_API_SECRET
 });
 
 //define storage
@@ -17,9 +22,7 @@ const storage = cloudinaryStorage({
 	folder: (req, file, next) => {
 		next(
 			undefined,
-			`${process.env.CLOUDINARY_RESOURCE_FOLDER}/${
-				req.baseUrl.split("/")[3]
-			}`
+			`${CLOUDINARY_RESOURCE_FOLDER}/${req.baseUrl.split("/")[3]}`
 		);
 	},
 	allowedFormat: ["jpg", "jpeg", "png", "gif"],
@@ -35,6 +38,17 @@ module.exports.deleteImg = async imgId => {
 		let result = await cloudinary.v2.api.delete_resources([imgId]);
 		return result;
 	} catch (err) {
-		res.status(500).json({ message: err.message, error: true });
+		console.info(err);
+		logger(
+			"error",
+			"server",
+			{
+				message: err.message,
+				stack: err.stack,
+				status: err.status || SERVER_ERROR
+			},
+			err
+		);
+		return;
 	}
 };

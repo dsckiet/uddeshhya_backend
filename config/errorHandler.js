@@ -20,7 +20,7 @@ module.exports.notFound = (req, res) => {
 module.exports.sendErrors = (err, req, res, next) => {
 	//logging error for backend console
 	console.log(err);
-	logger("error", "app", {
+	logger("error", "server", {
 		message: err.message,
 		status: err.status || SERVER_ERROR,
 		stack: err.stack,

@@ -18,7 +18,7 @@ let logger = log4js.getLogger();
 logger.level = "debug";
 
 module.exports.sendError = (res, message, status) => {
-	res.status(status).json({
+	return res.status(status).json({
 		message,
 		error: true,
 		data: null
@@ -41,16 +41,6 @@ module.exports.sendSuccess = (res, data, token) => {
 		error: false,
 		...data
 	});
-};
-
-module.exports.generateHash = length => {
-	let chars =
-		"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	let code = "";
-	for (let i = 0; i < length; i++) {
-		code += chars[Math.round(Math.random() * (chars.length - 1))];
-	}
-	return code;
 };
 
 module.exports.toTitleCase = str => {

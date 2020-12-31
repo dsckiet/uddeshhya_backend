@@ -16,7 +16,7 @@ let { teamValidation } = require("../../../middleware/validations");
 let { catchErrors } = require("../../../config/errorHandler");
 
 // image uploader
-let { upload } = require("../../../config/imgUpload");
+let { upload } = require("../../../services/imgUpload");
 
 // view team
 router.get("/", catchErrors(team));

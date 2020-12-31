@@ -16,7 +16,7 @@ let { projectValidation } = require("../../../middleware/validations");
 let { catchErrors } = require("../../../config/errorHandler");
 
 // image uploader
-let { upload } = require("../../../config/imgUpload");
+let { upload } = require("../../../services/imgUpload");
 
 // all projects
 router.get("/", catchErrors(projects));

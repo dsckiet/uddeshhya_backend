@@ -1,6 +1,6 @@
 //rzp order creater
 const { RZP_KEY_ID } = require("../config");
-const { createRzpOrder } = require("../config/payment");
+const { createRzpOrder } = require("../services/payment");
 const { sendSuccess, sendError } = require("../utility/helpers");
 const { BAD_REQUEST } = require("../utility/statusCodes");
 require("dotenv").config();

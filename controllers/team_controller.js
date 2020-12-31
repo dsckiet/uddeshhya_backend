@@ -1,4 +1,4 @@
-const { deleteImg } = require("../config/imgUpload");
+const { deleteImg } = require("../services/imgUpload");
 const { sendSuccess, sendError } = require("../utility/helpers");
 const { BAD_REQUEST } = require("../utility/statusCodes");
 
