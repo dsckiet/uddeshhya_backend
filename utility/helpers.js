@@ -27,16 +27,19 @@ module.exports.sendError = (res, message, status) => {
 
 module.exports.sendSuccess = (res, data, token) => {
 	if (token) {
-		return res.status(OK).header("x-auth-token", token).json({
-			message: "success",
-			error: false,
-			data
-		});
+		return res
+			.status(OK)
+			.header("x-auth-token", token)
+			.json({
+				message: "success",
+				error: false,
+				...data
+			});
 	}
 	return res.status(OK).json({
 		message: "success",
 		error: false,
-		data
+		...data
 	});
 };
 

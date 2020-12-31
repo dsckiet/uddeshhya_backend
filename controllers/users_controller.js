@@ -1,80 +1,59 @@
 const bcrypt = require("bcryptjs");
+const { sendError, sendSuccess } = require("../utility/helpers");
+const { BAD_REQUEST } = require("../utility/statusCodes");
 
 module.exports.login = async (req, res) => {
 	let { email, password } = req.body;
-	let user = await User.findOne({ email });
-	if (user) {
-		let isValidPwd = await bcrypt.compare(password, user.password);
-		if (isValidPwd) {
-			const token = user.generateAuthToken();
-			res.status(200).header("x-auth-token", token).json({
-				message: "success",
-				user
-			});
-		} else {
-			res.status(400).json({ message: "Invalid credentials!!" });
-		}
-	} else {
-		res.status(400).json({ message: "Invalid user" });
-	}
+	let user = await User.findOne({ email }).lean();
+	if (!user) return sendError(res, "Invalid user.", BAD_REQUEST);
+	let isValidPwd = await bcrypt.compare(password, user.password);
+	if (!isValidPwd) return sendError(res, "Invalid credentials.", BAD_REQUEST);
+	const token = user.generateAuthToken();
+	return sendSuccess(res, { user }, token);
 };
 
 module.exports.users = async (req, res) => {
-	let users = await User.find().sort({
-		updatedAt: "desc",
-		role: "asc"
-	});
-
-	res.status(200).json({ message: "success", users });
+	let users = await User.find()
+		.sort({
+			updatedAt: "desc",
+			role: "asc"
+		})
+		.lean();
+	return sendSuccess(res, { users });
 };
 
 module.exports.addUser = async (req, res) => {
 	let { name, email, password } = req.body;
-	let user = await User.findOne({ email });
-	if (user) {
-		res.status(400).json({ message: "EmailID already exists!!" });
-	} else {
-		let newUser = {
-			name,
-			email,
-			password
-		};
-		const salt = await bcrypt.genSalt(10);
-		newUser.password = await bcrypt.hash(newUser.password, salt);
-		await User.create(newUser);
-		res.status(200).json({ message: "success" });
-	}
+	let user = await User.findOne({ email }).lean();
+	if (user) return sendError(res, "User already registered.", BAD_REQUEST);
+	user = new User({
+		name,
+		email,
+		password
+	});
+	user = await user.save();
+	return sendSuccess(res, { user });
 };
 
 module.exports.updateUser = async (req, res) => {
 	let { name, email, password } = req.body;
-	let user = await User.findById(req.params.id);
-	if (user) {
-		const salt = await bcrypt.genSalt(10);
-		user.password = await bcrypt.hash(password, salt);
-		user.name = name;
-		user.email = email;
-		await user.save();
-		res.status(200).json({ message: "success" });
-	} else {
-		res.status(404).json({ message: "Invalid user" });
-	}
+	let user = await User.findById(req.params.id).lean();
+	if (!user) return sendError(res, "User not found.", BAD_REQUEST);
+	user.name = name;
+	user.email = email;
+	user.password = password;
+	user = await user.save();
+	return sendSuccess(res, { user });
 };
 
 module.exports.deleteUser = async (req, res) => {
-	let user = await User.findByIdAndDelete(req.params.id);
-	if (user) {
-		res.status(200).json({ message: "success" });
-	} else {
-		res.status(404).json({ message: "Invalid user" });
-	}
+	let user = await User.findByIdAndRemove(req.params.id);
+	if (!user) return sendError(res, "User not found.", BAD_REQUEST);
+	return sendSuccess(res, {});
 };
 
 module.exports.viewUser = async (req, res) => {
-	let user = await User.findById(req.params.id);
-	if (user) {
-		res.status(200).json({ message: "success", user });
-	} else {
-		res.status(404).json({ message: "Invalid user" });
-	}
+	let user = await User.findById(req.params.id).lean();
+	if (!user) return sendError(res, "User not found.", BAD_REQUEST);
+	return sendSuccess(res, { user });
 };

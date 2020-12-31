@@ -48,6 +48,7 @@ const BloodDonor = require("./models/BloodDonor");
 const bloodRequest = require("./models/BloodRequest");
 const Message = require("./models/Message");
 const Donation = require("./models/Donation");
+const Log = require("./models/Log");
 
 // load routes
 app.use("/api/v1", require("./routes/api/v1/index"));

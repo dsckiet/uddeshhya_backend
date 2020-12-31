@@ -8,7 +8,7 @@ const BloodDonorSchema = new mongoose.Schema(
 		email: { type: String, required: true },
 		dob: { type: String, required: true },
 		address: { type: String, required: true },
-		hasDonated: { type: Boolean, required: true }
+		hasDonated: { type: Boolean, default: false }
 	},
 	{ timestamps: true }
 );

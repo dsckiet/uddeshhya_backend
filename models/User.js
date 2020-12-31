@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
-require("dotenv").config();
+const bcrypt = require("bcryptjs");
+const { JWT_PRIVATE_KEY } = require("../config/index");
 
 const UserSchema = new mongoose.Schema(
 	{
@@ -13,6 +13,15 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+UserSchema.pre("save", async function (next) {
+	this.email = String(this.email).trim().toLowerCase();
+	if (!this.isModified("password")) return next();
+	let salt = await bcrypt.genSalt(10);
+	let hash = await bcrypt.hash(this.password, salt);
+	this.password = hash;
+	next();
+});
+
 UserSchema.methods.generateAuthToken = function () {
 	const token = jwt.sign(
 		{
@@ -21,7 +30,7 @@ UserSchema.methods.generateAuthToken = function () {
 			role: this.role,
 			email: this.email
 		},
-		process.env.JWT_PRIVATE_KEY
+		JWT_PRIVATE_KEY
 	);
 	return token;
 };

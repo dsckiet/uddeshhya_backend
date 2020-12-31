@@ -1,14 +1,24 @@
+const { sendError, sendSuccess } = require("../utility/helpers");
+const { BAD_REQUEST } = require("../utility/statusCodes");
+
 module.exports.registerDonor = async (req, res) => {
 	let { name, bloodGroup, phone, email, dob, address, hasDonated } = req.body;
-	let donor = await BloodDonor.findOne({ $and: [{ email }, { phone }] });
-	if (donor) {
-		res.status(400).json({
-			message: "phone or email already in use."
-		});
-	} else {
-		await BloodDonor.create(req.body);
-		res.status(200).json({ message: "success" });
-	}
+	let donor = await BloodDonor.findOne({
+		$and: [{ email }, { phone }]
+	}).lean();
+	if (donor)
+		return sendError(res, "phone or email already in use.", BAD_REQUEST);
+	let newBloodDonor = new BloodDonor({
+		name,
+		bloodGroup,
+		phone,
+		email,
+		dob,
+		address,
+		hasDonated
+	});
+	newBloodDonor = await newBloodDonor.save();
+	return sendSuccess(res, { newBloodDonor });
 };
 
 module.exports.requestBlood = async (req, res) => {
@@ -26,6 +36,20 @@ module.exports.requestBlood = async (req, res) => {
 		neededBy,
 		timings
 	} = req.body;
-	await BloodRequest.create(req.body);
-	res.status(200).json({ message: "success" });
+	let newBloodRequest = new BloodRequest({
+		name,
+		bloodGroup,
+		phone,
+		dob,
+		address,
+		pincode,
+		requestFor,
+		require,
+		units,
+		reason,
+		neededBy,
+		timings
+	});
+	newBloodRequest = await newBloodRequest.save();
+	return sendSuccess(res, { newBloodRequest });
 };
