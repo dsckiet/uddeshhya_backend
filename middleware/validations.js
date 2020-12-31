@@ -88,7 +88,7 @@ module.exports.projectValidation = (req, res, next) => {
 		return sendError(res, "Please upload an image.", BAD_REQUEST);
 	req.file = req.files[0];
 
-	req.body.title = toTitleCase(String(title).trim());
+	req.body.title = String(title).trim().toUpperCase();
 	req.body.description = String(description).trim();
 	return next();
 };
@@ -107,9 +107,9 @@ module.exports.teamValidation = (req, res, next) => {
 		return sendError(res, "Please upload an image.", BAD_REQUEST);
 	req.file = req.files[0];
 
-	req.body.name = toTitleCase(String(name).trim());
+	req.body.name = String(name).trim().toUpperCase();
 	req.body.email = String(email).trim().toLowerCase();
-	req.body.position = toTitleCase(String(position).trim());
+	req.body.position = String(position).trim().toUpperCase();
 	return next();
 };
 
