@@ -20,13 +20,13 @@ module.exports.volunteer = async (req, res) => {
 
 module.exports.contact = async (req, res) => {
 	let { name, email, phone, message } = req.body;
-	let message = new Message({
+	let contactMessage = new Message({
 		name,
 		email,
 		phone,
 		message
 	});
 
-	message = await message.save();
-	return sendSuccess(res, { message });
+	contactMessage = await contactMessage.save();
+	return sendSuccess(res, { contactMessage });
 };

@@ -11,7 +11,7 @@ module.exports.addProject = async (req, res) => {
 	let { title, description } = req.body;
 	if (!req.file)
 		return sendError(res, "Please upload an image.", BAD_REQUEST);
-	let project = await Project.findOne({ title }).lean();
+	let project = await Project.findOne({ title });
 	if (project) return sendError(res, "Project already exists.", BAD_REQUEST);
 	project = new Project({
 		title,
@@ -27,7 +27,7 @@ module.exports.addProject = async (req, res) => {
 
 module.exports.updateProject = async (req, res) => {
 	let { title, description } = req.body;
-	let project = await Project.findById(req.params.id).lean();
+	let project = await Project.findById(req.params.id);
 	if (!project) return sendError(res, "Project not found.", BAD_REQUEST);
 	if (req.file) {
 		await deleteImg(project.img.id);

@@ -13,7 +13,7 @@ module.exports.addTeamMember = async (req, res) => {
 	if (!req.file)
 		return sendError(res, "Please upload an image.", BAD_REQUEST);
 
-	let team = await Team.findOne({ name, position }).lean();
+	let team = await Team.findOne({ name, position });
 	if (team) return sendError(res, "Team Member already exists.", BAD_REQUEST);
 
 	team = new Team({
@@ -36,7 +36,7 @@ module.exports.addTeamMember = async (req, res) => {
 
 module.exports.updateTeamMember = async (req, res) => {
 	let { position, fb, insta, linkedin, phone, email } = req.body; // name field readonly in frontend
-	let team = await Team.findById(req.params.id).lean();
+	let team = await Team.findById(req.params.id);
 	if (!team) return sendError(res, "Team member not found", BAD_REQUEST);
 	if (req.file) {
 		await deleteImg(team.img.id);

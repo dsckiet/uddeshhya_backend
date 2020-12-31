@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const BloodRequestSchema = new mongoose.Schema(
 	{
-		name: { type: String, required: true },
+		name: { type: String, required: true, index: true },
 		bloodGroup: { type: String, required: true },
 		phone: { type: String, required: true },
 		dob: { type: String, required: true },

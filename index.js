@@ -4,7 +4,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const { NODE_ENV, PORT } = require("./config/index");
 const { notFound, sendErrors } = require("./config/errorHandler");
-const { logRequestMiddleware } = require("./middlewares/log");
+const { logRequestMiddleware } = require("./middleware/log");
 
 const app = express();
 
@@ -88,6 +88,6 @@ app.use((req, res, next) => {
 			`NODE_ENV: ${NODE_ENV}\nServer is up and running on Port ${PORT}`
 		);
 	} catch (err) {
-		console.info("Error in running server.");
+		console.info("Error in running server.", err);
 	}
 })();

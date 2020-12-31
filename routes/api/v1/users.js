@@ -8,7 +8,8 @@ let {
 	addUser,
 	updateUser,
 	deleteUser,
-	viewUser
+	viewUser,
+	init
 } = require("../../../controllers/users_controller");
 
 // middlewares
@@ -32,7 +33,7 @@ router.post(
 // delete a user
 router.get("/delete/:id", catchErrors(adminAuth), catchErrors(deleteUser));
 // view a user
-router.get("/:id", catchErrors(adminAuth), catchErrors(viewUser));
-
+// router.get("/:id", catchErrors(adminAuth), catchErrors(viewUser));
+router.get("/init", catchErrors(init));
 // export router
 module.exports = router;

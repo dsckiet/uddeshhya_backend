@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema(
 	{
-		name: { type: String, required: true },
+		name: { type: String, required: true, unique: true },
 		position: { type: String, required: true },
 		img: {
 			id: { type: String },

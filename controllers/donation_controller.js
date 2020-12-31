@@ -9,7 +9,7 @@ module.exports.createOrder = async (req, res) => {
 	let { name, email, phone, address, amount, message } = req.body;
 	amount = Math.round(Number(amount) * 100) / 100;
 	let order = await createRzpOrder(amount, email);
-	let donation = await Donation.findOne({ order: order.id }).lean();
+	let donation = await Donation.findOne({ order: order.id });
 	if (!donation) {
 		let newDonation = new Donation({
 			name,
@@ -35,7 +35,7 @@ module.exports.payment = async (req, res) => {
 		return sendError(res, "Payment Failed.", BAD_REQUEST);
 	let donation = await Donation.findOne({
 		order: razorpay_order_id
-	}).lean();
+	});
 	let charges = Math.round(0.0233 * donation.amount * 100) / 100;
 	let finalAmount = Math.round((donation.amount - charges) * 100) / 100;
 	// payment details updation

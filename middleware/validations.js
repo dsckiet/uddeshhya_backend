@@ -39,7 +39,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		workSpan,
 		skills,
 		suggestion,
-		projects
+		project
 	} = req.body;
 
 	if (!name) return sendError(res, "Name is not provided.", BAD_REQUEST);
@@ -63,7 +63,7 @@ module.exports.volunteerValidation = (req, res, next) => {
 		return sendError(res, "Heard from is not provided.", BAD_REQUEST);
 	if (!workSpan)
 		return sendError(res, "Work Span is not provided.", BAD_REQUEST);
-	if (!projects)
+	if (!project)
 		return sendError(res, "Project Details are not provided.", BAD_REQUEST);
 	return next();
 };

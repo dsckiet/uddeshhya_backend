@@ -64,7 +64,7 @@ const Volunteerschema = new mongoose.Schema(
 		suggestion: {
 			type: String
 		},
-		projects: {
+		project: {
 			type: String,
 			required: true
 		}
