@@ -33,7 +33,7 @@ router.post(
 // delete a user
 router.get("/delete/:id", catchErrors(adminAuth), catchErrors(deleteUser));
 // view a user
-// router.get("/:id", catchErrors(adminAuth), catchErrors(viewUser));
-router.get("/init", catchErrors(init));
+router.get("/:id", catchErrors(adminAuth), catchErrors(viewUser));
+// router.post("/init", catchErrors(init));
 // export router
 module.exports = router;
