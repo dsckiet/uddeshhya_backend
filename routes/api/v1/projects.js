@@ -3,36 +3,48 @@ const router = express.Router();
 
 // load controllers
 let {
-  projects,
-  addProject,
-  updateProject,
-  deleteProject,
-  viewProject
+	projects,
+	addProject,
+	updateProject,
+	deleteProject,
+	viewProject
 } = require("../../../controllers/projects_controller");
 
 // middlewares
 let { adminAuth } = require("../../../middleware/auth");
 let { projectValidation } = require("../../../middleware/validations");
+let { catchErrors } = require("../../../config/errorHandler");
 
 // image uploader
-let { upload } = require("../../../config/imgUpload");
+let {
+	multer,
+	imageFileFilter
+} = require("../../../middleware/fileUploadValidations");
 
 // all projects
-router.get("/", projects);
+router.get("/", catchErrors(projects));
 // add a project
-router.post("/add", adminAuth, upload.any(), projectValidation, addProject);
+router.post(
+	"/add",
+	catchErrors(adminAuth),
+	multer.any(),
+	imageFileFilter,
+	catchErrors(projectValidation),
+	catchErrors(addProject)
+);
 // update a project
 // router.post(
-// 	'/update/:id',
-// 	adminAuth,
-// 	projectValidation,
-// 	upload.single('file'),
-// 	updateProject
+// 	"/update/:id",
+// 	catchErrors(adminAuth),
+// 	multer.any(),
+// 	imageFileFilter,
+// 	catchErrors(projectValidation),
+// 	catchErrors(updateProject)
 // );
 // delete a project
-router.get("/delete/:id", adminAuth, deleteProject);
+router.get("/delete/:id", catchErrors(adminAuth), catchErrors(deleteProject));
 // view a project
-router.get("/:id", viewProject);
+router.get("/:id", catchErrors(viewProject));
 
 // export router
 module.exports = router;

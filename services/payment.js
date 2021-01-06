@@ -1,18 +1,18 @@
-const razorpay = require('razorpay');
-require('dotenv').config();
+const razorpay = require("razorpay");
+const { RZP_KEY_ID, RZP_KEY_SECRET } = require("../config/index");
 
 let rzp = new razorpay({
-	key_id: process.env.RZP_KEY_ID,
-	key_secret: process.env.RZP_KEY_SECRET
+	key_id: RZP_KEY_ID,
+	key_secret: RZP_KEY_SECRET
 });
 
 module.exports.createRzpOrder = async (amt, email) => {
 	let options = {
 		// amount in paise
 		amount: Math.round(amt * 100 * 100) / 100,
-		currency: 'INR',
+		currency: "INR",
 		receipt: email,
-		payment_capture: '1',
+		payment_capture: "1",
 		notes: {
 			message: `Donation at Uddeshhya`
 		}
